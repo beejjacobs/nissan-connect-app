@@ -1,14 +1,15 @@
 <template>
   <svg :height="height" :width="width" :viewBox="viewBox">
-    <rect :height="top.height" :width="top.width" :x="top.x" :y="top.y" stroke="#808080" :stroke-width="strokeWidth" fill-opacity="0"></rect>
-    <rect :height="outline.height" :width="outline.width" :x="outline.x" :y="outline.y" stroke="#808080" :stroke-width="strokeWidth" fill-opacity="0"></rect>
-    <rect :height="inner.height" :width="inner.width" :x="inner.x" :y="inner.y" fill="#1976d2"></rect>
+    <rect :height="top.height" :width="top.width" :x="top.x" :y="top.y" :stroke="strokeColor" :stroke-width="strokeWidth" fill-opacity="0.5" :fill="strokeColor"></rect>
+    <rect :height="outline.height" :width="outline.width" :x="outline.x" :y="outline.y" :stroke="strokeColor" :stroke-width="strokeWidth" fill-opacity="0"></rect>
+    <rect :height="inner.height" :width="inner.width" :x="inner.x" :y="inner.y" :fill="fillColor"></rect>
+    <polygon :points="chargingPoints" :stroke="strokeColor" stroke-width="2"  fill="yellow" v-if="charging" :transform="chargingRotate"></polygon>
   </svg>
 </template>
 
 <script>
   export default {
-    props: ['level', 'height', 'width', 'strokeWidth'],
+    props: ['level', 'height', 'width', 'strokeWidth', 'strokeColor', 'fillColor', 'charging'],
     data() {
       return {}
     },
@@ -48,6 +49,25 @@
           width: this.widthLessMargin - 10,
           height: this.adjustedHeight
         }
+      },
+      chargingPoints: function () {
+        let height = this.outline.height * 0.8;
+        let width = this.width * 0.2;
+        let x = this.width / 2;
+        let y = this.outline.height * 0.1 + this.outline.y;
+        let points = [
+          [x, y],
+          [x, y + (height * 0.45)],
+          [x + width,  y + (height * 0.45)],
+          [x, y + height],
+          [x, y + (height * 0.55)],
+          [x - width, y + (height * 0.55)]
+        ];
+
+        return points.reduce((out, value) => out + ' ' + value[0] + ',' + value[1], '');
+      },
+      chargingRotate: function () {
+        return `rotate(5 ${this.width/2} ${this.height/2})`
       },
       viewBox: function () {
         return `0 0 ${this.width} ${this.height}`
