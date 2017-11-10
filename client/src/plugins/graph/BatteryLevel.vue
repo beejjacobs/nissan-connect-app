@@ -1,15 +1,53 @@
 <template>
   <svg :height="height" :width="width" :viewBox="viewBox">
-    <rect :height="top.height" :width="top.width" :x="top.x" :y="top.y" :stroke="strokeColor" :stroke-width="strokeWidth" fill-opacity="0.5" :fill="strokeColor"></rect>
-    <rect :height="outline.height" :width="outline.width" :x="outline.x" :y="outline.y" :stroke="strokeColor" :stroke-width="strokeWidth" fill-opacity="0"></rect>
-    <rect :height="inner.height" :width="inner.width" :x="inner.x" :y="inner.y" :fill="fillColor"></rect>
-    <polygon :points="chargingPoints" :stroke="strokeColor" stroke-width="2"  fill="yellow" v-if="charging" :transform="chargingRotate"></polygon>
+    <rect
+        :height="top.height"
+        :width="top.width"
+        :x="top.x"
+        :y="top.y"
+        :stroke="strokeColor"
+        :stroke-width="strokeWidth"
+        fill-opacity="0.5"
+        :fill="strokeColor"></rect>
+    <rect
+        :height="outline.height"
+        :width="outline.width"
+        :x="outline.x"
+        :y="outline.y"
+        :stroke="strokeColor"
+        :stroke-width="strokeWidth"
+        fill-opacity="0"></rect>
+    <rect
+        :height="inner.height"
+        :width="inner.width"
+        :x="inner.x"
+        :y="inner.y"
+        :fill="fillColor"></rect>
+    <polygon
+        v-if="charging"
+        :points="chargingPoints"
+        :stroke="strokeColor"
+        stroke-width="2"
+        :fill="chargingColor"
+        :transform="chargingRotate"></polygon>
   </svg>
 </template>
 
 <script>
   export default {
-    props: ['level', 'height', 'width', 'strokeWidth', 'strokeColor', 'fillColor', 'charging'],
+    props: {
+      level: [String, Number],
+      height: [String, Number],
+      width: [String, Number],
+      strokeWidth: [String, Number],
+      strokeColor: String,
+      fillColor: String,
+      charging: Boolean,
+      chargingColor: {
+        type: String,
+        default: 'yellow'
+      }
+    },
     data() {
       return {}
     },

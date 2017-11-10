@@ -1,6 +1,7 @@
 <template>
   <v-container>
-    <battery-level height="300" width="150"
+    <battery-level :height="batteryHeight"
+                   :width="batteryWidth"
                    stroke-width="4"
                    stroke-color="#808080"
                    fill-color="#1976d2"
@@ -10,6 +11,8 @@
     <h2>{{ percentage }}%</h2>
     <h2>{{battery.level}}/12</h2>
     <v-checkbox v-model="charging" light></v-checkbox>
+    <v-text-field v-model="batteryWidth"></v-text-field>
+    <v-text-field v-model="batteryHeight"></v-text-field>
     <v-btn
         color="pink"
         dark
@@ -32,7 +35,9 @@
         battery: {
           level: 0
         },
-        charging: true
+        charging: true,
+        batteryWidth: 150,
+        batteryHeight: 300
       }
     },
     computed: {
