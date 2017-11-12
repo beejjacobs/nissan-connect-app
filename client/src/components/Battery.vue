@@ -8,6 +8,8 @@
                    :charging="charging"
                    :level="battery.level"></battery-level>
     <div style="float: right;">
+      <h4>Range: {{ battery.range.withoutAc }} miles</h4>
+      <h4>with ac: {{ battery.range.withAc }} miles</h4>
       <h4>Charge level: {{battery.level}}/12</h4>
       <h4 v-if="charging">Charging</h4>
       <h4 v-if="pluggedIn">Plugged In</h4>
@@ -54,7 +56,11 @@
       return {
         battery: {
           level: 0,
-          updated: '2017-11-10 13:30'
+          updated: '2017-11-10 13:30',
+          range: {
+            withAc: 65,
+            withoutAc: 70
+          }
         },
         timeToFull: {
           standard: {hours: 9},
