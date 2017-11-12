@@ -12,6 +12,7 @@
       <h4>with ac: {{ battery.range.withAc }} miles</h4>
       <h4>Charge level: {{battery.level}}/12</h4>
       <h4 v-if="charging">Charging</h4>
+      <v-btn v-if="!charging && pluggedIn" @click="startCharge">Start Charging</v-btn>
       <h4 v-if="pluggedIn">Plugged In</h4>
       <h4 v-else="">Unplugged</h4>
       <h5>Time Left:</h5>
@@ -95,6 +96,11 @@
           kw3: format(this.timeToFull.kw3),
           kw6: format(this.timeToFull.kw6)
         };
+      }
+    },
+    methods: {
+      startCharge: function () {
+        console.log('start charge');
       }
     }
   }
