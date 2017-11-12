@@ -4,15 +4,34 @@
                    :width="batteryWidth"
                    stroke-width="4"
                    stroke-color="#808080"
-                   fill-color="#1976d2"
+                   fill-color="#009688"
                    :charging="charging"
                    :level="battery.level"></battery-level>
+    <div style="float: right;">
+      <h4>Charge level: {{battery.level}}/12</h4>
+      <h4 v-if="charging">Charging</h4>
+      <h4 v-if="pluggedIn">Plugged In</h4>
+      <h4 v-else="">Unplugged</h4>
+      <h5>Time Left:</h5>
+      <table>
+        <tr v-if="timeToCharge.standard">
+          <td>Standard</td>
+          <td>{{timeToCharge.standard}}</td>
+        </tr>
+        <tr v-if="timeToCharge.kw3">
+          <td>3kW</td>
+          <td>{{timeToCharge.kw3}}</td>
+        </tr>
+        <tr v-if="timeToCharge.kw6">
+          <td>6kW</td>
+          <td>{{timeToCharge.kw6}}</td>
+        </tr>
+      </table>
+    </div>
+    <div>Last updated: {{updatedTime}}</div>
     <v-slider v-model="battery.level" thumb-label step="1" min="0" max="12"></v-slider>
-    <h2>{{ percentage }}%</h2>
-    <h2>{{battery.level}}/12</h2>
     <v-checkbox v-model="charging" light></v-checkbox>
-    <v-text-field v-model="batteryWidth"></v-text-field>
-    <v-text-field v-model="batteryHeight"></v-text-field>
+    <v-checkbox v-model="pluggedIn" light></v-checkbox>
     <v-btn
         color="pink"
         dark
@@ -28,21 +47,48 @@
 </template>
 
 <script>
+  import moment from 'moment';
   export default {
     name: 'Battery',
     data () {
       return {
         battery: {
-          level: 0
+          level: 0,
+          updated: '2017-11-10 13:30'
+        },
+        timeToFull: {
+          standard: {hours: 9},
+          kw3: {hours: 7, minutes: 30},
+          kw6: null
         },
         charging: true,
+        pluggedIn: true,
         batteryWidth: 150,
         batteryHeight: 300
       }
     },
     computed: {
-      percentage: function () {
-        return parseInt(this.battery.level / 12 * 100);
+      updatedTime: function () {
+        return moment(this.battery.updated).calendar();
+      },
+      timeToCharge: function () {
+        function format(time) {
+          console.log(time);
+          if (time === null) {
+            return null;
+          }
+          let duration = moment.duration(time);
+          let minutes = duration.minutes();
+          if (minutes < 10) {
+            minutes = '0' + minutes;
+          }
+          return duration.hours() + ':' + minutes;
+        }
+        return {
+          standard: format(this.timeToFull.standard),
+          kw3: format(this.timeToFull.kw3),
+          kw6: format(this.timeToFull.kw6)
+        };
       }
     }
   }
