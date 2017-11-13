@@ -4,16 +4,16 @@
       <v-toolbar-title class="white--text">{{ title }}</v-toolbar-title>
       <v-spacer></v-spacer>
       <v-btn flat :to="{path:'/'}" exact>
+        <v-icon left>ev_station</v-icon>
         <span>Battery</span>
-        <v-icon>ev_station</v-icon>
       </v-btn>
       <v-btn flat :to="{path:'/ac'}">
+        <v-icon left>toys</v-icon>
         <span>AC</span>
-        <v-icon>toys</v-icon>
       </v-btn>
       <v-btn flat :to="{path:'/history'}">
+        <v-icon left>directions_car</v-icon>
         <span>History</span>
-        <v-icon>directions_car</v-icon>
       </v-btn>
     </v-toolbar>
     <main>

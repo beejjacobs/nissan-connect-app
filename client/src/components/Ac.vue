@@ -14,6 +14,7 @@
     </v-flex>
     <v-flex v-if="schedule">
       Schedule is set for <span>{{ scheduleTime }}</span>
+      <v-btn>Cancel</v-btn>
     </v-flex>
     <v-flex md12>
       Set AC Schedule:
@@ -36,13 +37,11 @@
             readonly
         ></v-text-field>
         <v-date-picker v-model="timer.date" firstDayOfWeek="1" no-title scrollable actions>
-          <template scope="{ save, cancel }">
-            <v-card-actions>
-              <v-spacer></v-spacer>
-              <v-btn flat color="primary" @click="cancel">Cancel</v-btn>
-              <v-btn flat color="primary" @click="save">OK</v-btn>
-            </v-card-actions>
-          </template>
+          <v-card-actions slot-scope="{ save, cancel }">
+            <v-spacer></v-spacer>
+            <v-btn flat color="primary" @click="cancel">Cancel</v-btn>
+            <v-btn flat color="primary" @click="save">OK</v-btn>
+          </v-card-actions>
         </v-date-picker>
       </v-menu>
       <v-menu
@@ -64,13 +63,11 @@
             readonly
         ></v-text-field>
         <v-time-picker v-model="timer.time" format="24hr" scrollable actions>
-          <template scope="{ save, cancel }">
-            <v-card-actions>
-              <v-spacer></v-spacer>
-              <v-btn flat color="primary" @click="cancel">Cancel</v-btn>
-              <v-btn flat color="primary" @click="save">OK</v-btn>
-            </v-card-actions>
-          </template>
+          <v-card-actions slot-scope="{ save, cancel }">
+            <v-spacer></v-spacer>
+            <v-btn flat color="primary" @click="cancel">Cancel</v-btn>
+            <v-btn flat color="primary" @click="save">OK</v-btn>
+          </v-card-actions>
         </v-time-picker>
       </v-menu>
       <v-btn primary>Set</v-btn>
@@ -105,6 +102,3 @@
     }
   }
 </script>
-
-<style scoped>
-</style>
