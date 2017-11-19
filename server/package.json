@@ -1,10 +1,10 @@
 {
-  "name": "nissan-connect-app-server",
+  "name": "@beejjacobs/nissan-connect-app-server",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "run": "node index"
   },
   "repository": {
     "type": "git",
@@ -17,6 +17,8 @@
   },
   "homepage": "https://github.com/beejjacobs/nissan-connect-app#readme",
   "dependencies": {
-    "nissan-connect": "^1.1.0"
+    "@beejjacobs/nissan-connect": "^1.0.2",
+    "express": "^4.16.2",
+    "moment": "^2.19.2"
   }
 }
