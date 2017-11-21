@@ -3,6 +3,9 @@ const bodyParser = require('body-parser');
 const NissanConnect = require('@beejjacobs/nissan-connect').NissanConnect;
 const NissanConnectStore = require('./src/nissan-connect-store');
 const config = require('./config-real.json');
+/**
+ * @type {Express}
+ */
 const app = express();
 
 let password = Buffer.from(config.password, 'base64').toString('ascii');

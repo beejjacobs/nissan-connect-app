@@ -1,5 +1,6 @@
 const fs = require('fs');
 const moment = require('moment');
+const Utils = require('./utils');
 const promisify = require('util').promisify;
 const writeFile = promisify(fs.writeFile);
 
@@ -27,9 +28,9 @@ class NissanConnectStore {
    * @return {Promise.<DriveAnalysisWeekSummary>}
    */
   async getDrivingAnalysisWeek(date) {
-    let key = NissanConnectStore.startOfWeek(date).format('YYYY-MM-DD');
+    let key = Utils.startOfWeek(date).format('YYYY-MM-DD');
     let store = this.store.drivingAnalysisWeek;
-    if (store.hasOwnProperty(key)) {
+    if (store.hasOwnProperty(key) && !Utils.isThisWeek(date)) {
       NissanConnectStore.log(`found ${key} in the store`);
       return store[key];
     }
@@ -47,7 +48,7 @@ class NissanConnectStore {
   async getDriveRecords(date) {
     let key = moment(date).format('YYYY-MM-DD');
     let store = this.store.drivingRecord;
-    if (store.hasOwnProperty(key)) {
+    if (store.hasOwnProperty(key) && !Utils.isToday(date)) {
       NissanConnectStore.log(`found ${key} in the store`);
       return store[key];
     }
@@ -65,7 +66,7 @@ class NissanConnectStore {
   async getDriveRecordDays(month) {
     let key = moment(month).format('YYYY-MM');
     let store = this.store.drivingRecordCalendar;
-    if (store.hasOwnProperty(key)) {
+    if (store.hasOwnProperty(key) && !Utils.isThisMonth(month)) {
       NissanConnectStore.log(`found ${key} in the store`);
       return store[key];
     }
@@ -83,7 +84,7 @@ class NissanConnectStore {
   async getDriveRecordsMonth(month) {
     let key = moment(month).format('YYYY-MM');
     let store = this.store.drivingRecordMonth;
-    if (store.hasOwnProperty(key)) {
+    if (store.hasOwnProperty(key) && !Utils.isThisMonth(month)) {
       NissanConnectStore.log(`found ${key} in the store`);
       return store[key];
     }
@@ -101,7 +102,7 @@ class NissanConnectStore {
   async getDriveRecordsYear(year) {
     let key = moment().year(year).format('YYYY');
     let store = this.store.drivingRecordYear;
-    if (store.hasOwnProperty(key)) {
+    if (store.hasOwnProperty(key) && !Utils.isThisYear(year)) {
       NissanConnectStore.log(`found ${key} in the store`);
       return store[key];
     }
@@ -119,7 +120,7 @@ class NissanConnectStore {
   async getMonthlyTrips(month) {
     let key = moment(month).format('YYYY-MM');
     let store = this.store.monthlyTrips;
-    if (store.hasOwnProperty(key)) {
+    if (store.hasOwnProperty(key) && !Utils.isThisMonth(month)) {
       NissanConnectStore.log(`found ${key} in the store`);
       return store[key];
     }
@@ -137,7 +138,7 @@ class NissanConnectStore {
   async getMonthlyDistanceEconomy(month) {
     let key = moment(month).format('YYYY-MM');
     let store = this.store.monthlyDistanceEconomy;
-    if (store.hasOwnProperty(key)) {
+    if (store.hasOwnProperty(key) && Utils.isThisMonth(month)) {
       NissanConnectStore.log(`found ${key} in the store`);
       return store[key];
     }
@@ -155,7 +156,7 @@ class NissanConnectStore {
   async getMonthlyDistanceTime(month) {
     let key = moment(month).format('YYYY-MM');
     let store = this.store.monthlyDistanceTime;
-    if (store.hasOwnProperty(key)) {
+    if (store.hasOwnProperty(key) && !Utils.isThisMonth(month)) {
       NissanConnectStore.log(`found ${key} in the store`);
       return store[key];
     }
@@ -172,7 +173,7 @@ class NissanConnectStore {
    */
   async getMonthlyEnergyUsage(month) {
     let key = moment(month).format('YYYY-MM');
-    if (this.store.monthlyEnergyUsage.hasOwnProperty(key)) {
+    if (this.store.monthlyEnergyUsage.hasOwnProperty(key) && !Utils.isThisMonth(month)) {
       NissanConnectStore.log(`found ${key} in the store`);
       return this.store.monthlyEnergyUsage[key];
     }
@@ -190,7 +191,7 @@ class NissanConnectStore {
   async getYearlyTrips(year) {
     let key = moment().year(year).format('YYYY');
     let store = this.store.yearlyTrips;
-    if (store.hasOwnProperty(key)) {
+    if (store.hasOwnProperty(key) && !Utils.isThisYear(year)) {
       NissanConnectStore.log(`found ${key} in the store`);
       return store[key];
     }
@@ -208,7 +209,7 @@ class NissanConnectStore {
   async getYearlyDistanceEconomy(year) {
     let key = moment().year(year).format('YYYY');
     let store = this.store.yearlyDistanceEconomy;
-    if (store.hasOwnProperty(key)) {
+    if (store.hasOwnProperty(key) && !Utils.isThisYear(year)) {
       NissanConnectStore.log(`found ${key} in the store`);
       return store[key];
     }
@@ -226,7 +227,7 @@ class NissanConnectStore {
   async getYearlyDistanceTime(year) {
     let key = moment().year(year).format('YYYY');
     let store = this.store.yearlyDistanceTime;
-    if (store.hasOwnProperty(key)) {
+    if (store.hasOwnProperty(key) && !Utils.isThisYear(year)) {
       NissanConnectStore.log(`found ${key} in the store`);
       return store[key];
     }
@@ -244,7 +245,7 @@ class NissanConnectStore {
   async getYearlyEnergyUsage(year) {
     let key = moment().year(year).format('YYYY');
     let store = this.store.yearlyEnergyUsage;
-    if (store.hasOwnProperty(key)) {
+    if (store.hasOwnProperty(key) && !Utils.isThisYear(year)) {
       NissanConnectStore.log(`found ${key} in the store`);
       return store[key];
     }
@@ -262,7 +263,7 @@ class NissanConnectStore {
   async getMonthTripSummary(month) {
     let key = moment(month).format('YYYY-MM');
     let store = this.store.monthTripSummary;
-    if (store.hasOwnProperty(key)) {
+    if (store.hasOwnProperty(key) && !Utils.isThisMonth(month)) {
       NissanConnectStore.log(`found ${key} in the store`);
       return store[key];
     }
@@ -272,9 +273,6 @@ class NissanConnectStore {
     await this.save();
     return data;
   }
-
-
-
 
   get filename() {
     return NissanConnectStore.basename + '-' + this.username + '.json';
@@ -306,18 +304,6 @@ class NissanConnectStore {
       this.store = JSON.parse(file);
     }
     NissanConnectStore.checkStoreStructure(this.store);
-  }
-
-  /**
-   * @param {string|moment.Moment} date
-   * @return {moment.Moment}
-   */
-  static startOfWeek(date) {
-    let mDate = moment(date);
-    if (mDate.day() !== 0) {
-      mDate.day(0); //last Sunday
-    }
-    return mDate;
   }
 
   static checkStoreStructure(store) {
