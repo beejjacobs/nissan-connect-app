@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const NissanConnect = require('@beejjacobs/nissan-connect').NissanConnect;
 const NissanConnectStore = require('./src/nissan-connect-store');
+const Logger = require('./src/logger');
 const config = require('./config-real.json');
 /**
  * @type {Express}
@@ -11,6 +12,8 @@ const app = express();
 let password = Buffer.from(config.password, 'base64').toString('ascii');
 const nissanConnect = new NissanConnect(config.username, password);
 const store = new NissanConnectStore(config.username, nissanConnect);
+
+const logger = new Logger('ExpressApp');
 
 app.use(bodyParser.json());
 app.all('/*', function(req, res, next) {
@@ -175,5 +178,5 @@ app.get('/vehicle/info', function (req, res) {
 });
 
 app.listen(config.port, function () {
-  console.log(`listening on port ${config.port}`);
+  logger.log(`listening on port ${config.port}`);
 });
