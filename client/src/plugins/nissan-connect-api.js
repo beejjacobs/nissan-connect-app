@@ -1,5 +1,5 @@
 import VueResource from 'vue-resource';
-import {DriveAnalysis, DriveAnalysisWeekSummary, VehicleInfo} from '@beejjacobs/nissan-connect';
+import {AcOn, AcOff, AcSchedule, BatteryStatusResponse, TripSummaryMonth, BatteryStatusLast, Calendar, DrivingRecord, DrivingRecordMonth, DrivingRecordYear, DriveAnalysis, DriveAnalysisWeekSummary, VehicleInfo} from '@beejjacobs/nissan-connect';
 
 export default {
   install: (Vue, options) => {
@@ -14,123 +14,152 @@ export default {
       return base;
     }
 
-    function get(route, param) {
-      return Vue.http.get(url(route, param));
+    async function get(route, param) {
+      let res = await Vue.http.get(url(route, param));
+      return res.body.info;
+    }
+    async function getBody(route, param) {
+      let res = await Vue.http.get(url(route, param));
+      return res.body;
     }
 
     Vue.prototype.$api = {
       battery: {
         status: async function() {
-          return get('/battery/status');
+          let res = await get('/battery/status');
+          return new BatteryStatusResponse(res);
         },
         lastStatus: async function() {
-          return get('/battery/status/last');
-
+          let res = await get('/battery/status/last');
+          return new BatteryStatusLast(res);
         },
         charge: async function() {
-          return get('/battery/charge');
+          return await get('/battery/charge');
         }
       },
       ac: {
         on: async function() {
           let res = await get('/ac/on');
-          return res;
+          return new AcOn(res);
         },
         off: async function() {
           let res = await get('/ac/off');
-          return res;
+          return new AcOff(res);
         },
         schedule: async function() {
           let res = await get('/ac/schedule');
-          return res;
+          return new AcSchedule(res);
         },
         setSchedule: async function(schedule) {
           let res = await get('/ac/schedule/', schedule);
-          return res;
+          return new AcSchedule(res);
         },
         cancelSchedule: async function() {
-          let res = await get('/ac/charge');
-          return res;
+          return await get('/ac/charge');
         }
       },
       drive: {
         analysis: {
           today: async function() {
             let res = await get('/drive/analysis/today');
-            return res;
+            return new DriveAnalysis(res);
           },
           week: async function(date) {
             let res = await get('/drive/analysis/week/', date);
-            return new DriveAnalysisWeekSummary(res.body.info);
+            return new DriveAnalysisWeekSummary(res);
           }
         },
         record: {
           today: async function() {
             let res = await get('/drive/record/today');
-            return res;
+            return new DrivingRecord(res);
           },
           day: async function(day) {
             let res = await get('/drive/record/', day);
-            return res;
+            return new DrivingRecord(res);
           },
           availableDays: async function(month) {
             let res = await get('/drive/record/days/', month);
-            return res;
+            return new Calendar(res);
           },
           month: async function(month) {
             let res = await get('/drive/record/month/', month);
-            return res;
+            return new DrivingRecordMonth(res);
           },
           year: async function(year) {
             let res = await get('/drive/record/year/', year);
-            return res;
+            return new DrivingRecordYear(res);
           },
           note: async function(date, note) {
             //todo: post
           }
         },
         trip: {
+          /**
+           * @param month
+           * @return {Promise.<GraphDataPoints>}
+           */
           month: async function(month) {
-            let res = await get('/drive/trip/month/', month);
-            return res;
+            return await getBody('/drive/trip/month/', month);
           },
           monthSummary: async function(month) {
             let res = await get('/drive/trip/month/summary/', month);
-            return res;
+            return new TripSummaryMonth(res);
           },
+          /**
+           * @param year
+           * @return {Promise.<GraphDataPoints>}
+           */
           year: async function(year) {
-            let res = await get('/drive/trip/year/', year);
-            return res;
+            return await getBody('/drive/trip/year/', year);
           }
         },
         distanceEconomy: {
+          /**
+           * @param month
+           * @return {Promise.<DistanceEconomyDataPoints>}
+           */
           month: async function(month) {
-            let res = await get('/drive/distance/economy/month/', month);
-            return res;
+            return await getBody('/drive/distance/economy/month/', month);
           },
+          /**
+           * @param year
+           * @return {Promise.<DistanceEconomyDataPoints>}
+           */
           year: async function(year) {
-            let res = await get('/drive/distance/economy/year/', year);
-            return res;
+            return await getBody('/drive/distance/economy/year/', year);
           }
         },
         distanceTime: {
+          /**
+           * @param month
+           * @return {Promise.<DistanceTimeDataPoints>}
+           */
           month: async function(month) {
-            let res = await get('/drive/distance/time/month/', month);
-            return res;
+            return await getBody('/drive/distance/time/month/', month);
           },
+          /**
+           * @param year
+           * @return {Promise.<DistanceTimeDataPoints>}
+           */
           year: async function(year) {
-            let res = await get('/drive/distance/time/year/', year);
-            return res;
+            return await getBody('/drive/distance/time/year/', year);
           }
         },
         energyUsage: {
+          /**
+           * @param month
+           * @return {Promise.<GraphDataPoints>}
+           */
           month: async function(month) {
-            let res = await get('/drive/energy/month/', month);
-            return res;
+            return await getBody('/drive/energy/month/', month);
           },
+          /**
+           * @param year
+           * @return {Promise.<GraphDataPoints>}
+           */
           year: async function(year) {
-            let res = await get('/drive/energy/year/', year);
-            return res;
+            return await getBody('/drive/energy/year/', year);
           }
         }
       },
