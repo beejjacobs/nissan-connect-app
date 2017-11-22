@@ -6,11 +6,13 @@ import router from './router'
 import Vuetify from 'vuetify'
 import 'vuetify/dist/vuetify.min.css'
 import Graph from './plugins/graph';
+import NissanConnectApi from './plugins/nissan-connect-api';
 
 Vue.config.productionTip = false;
 
 Vue.use(Vuetify);
 Vue.use(Graph);
+Vue.use(NissanConnectApi, {hostPort: 'localhost:3001'});
 
 /* eslint-disable no-new */
 new Vue({

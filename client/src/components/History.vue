@@ -45,7 +45,6 @@
 
 <script>
   import moment from 'moment';
-
   export default {
     name: 'History',
     data() {
@@ -65,6 +64,10 @@
     methods: {
       loadData: function () {
         console.log('load data');
+        this.$api.drive.analysis.week('2017-10-19')
+            .then(driveAnalysis => {
+              console.log(driveAnalysis.economyUnits);
+            });
       }
     },
     computed: {
