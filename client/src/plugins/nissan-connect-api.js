@@ -1,4 +1,5 @@
 import VueResource from 'vue-resource';
+import Info from './info/index';
 import {
   AcOff,
   AcOn,
@@ -18,6 +19,7 @@ import {
 export default {
   install: (Vue, options) => {
     Vue.use(VueResource);
+    Vue.use(Info);
     let hostPort = options.hostPort;
 
     function url(route, param) {
