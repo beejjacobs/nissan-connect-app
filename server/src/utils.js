@@ -40,11 +40,11 @@ class Utils {
   }
 
   /**
-   * @param {string|moment.Moment} date
+   * @param {string|moment.Moment} year
    * @return {boolean}
    */
-  static isThisYear(date) {
-    return moment().isSame(moment(date), 'year');
+  static isThisYear(year) {
+    return moment().isSame(moment().year(year), 'year');
   }
 }
 
