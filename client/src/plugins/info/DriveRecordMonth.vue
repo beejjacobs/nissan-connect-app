@@ -1,7 +1,7 @@
 <template>
   <v-card>
     <v-card-title>
-      Month Summary for {{formattedDate}}
+      Month Summary for {{day.date | monthYear}}
       <v-spacer></v-spacer>
       <v-menu
           lazy
@@ -32,7 +32,7 @@
     <v-card-text>
       <v-list>
         <v-list-tile>Distance: {{day.travelDistance | travelDistance}} miles</v-list-tile>
-        <v-list-tile>Average Economy: {{day.averageEconomy}} miles/kWh ({{economyWattsPerMile}} W/mile)</v-list-tile>
+        <v-list-tile>Average Economy: {{day.averageEconomy}} miles/kWh ({{day.averageEconomy | economyWattsPerMile}} W/mile)</v-list-tile>
         <v-list-tile>Energy Usage: {{day.energyUsage | energyUsage}}</v-list-tile>
         <v-list-tile>Travel Time: {{day.travelTime | travelTime}}</v-list-tile>
         <v-list-tile>CO2 Reduction: {{day.co2Saving}} kg</v-list-tile>
@@ -42,8 +42,6 @@
 </template>
 
 <script>
-  import moment from 'moment';
-
   export default {
     name: 'DriveRecordMonth',
     data() {
@@ -64,35 +62,6 @@
         console.log('load data', this.selectDate);
         this.$api.driveRecordMonth(this.selectDate)
             .then(dr => this.day = dr);
-      }
-    },
-    computed: {
-      economyWattsPerMile() {
-        let number = Math.round(1000 / this.day.averageEconomy);
-        return isFinite(number) ? number : 0;
-      },
-      formattedDate() {
-        return moment(this.day.date).format('MMMM YYYY');
-      }
-    },
-    filters: {
-      travelDistance: function (value) {
-        return (value * 0.000621371).toFixed(2);
-      },
-      energyUsage: function (value) {
-        value = isNaN(value) ? 0 : value;
-        if (value < 0.5) {
-          return (value * 1000).toFixed(2) + ' Wh';
-        }
-        return value.toFixed(2) + ' kWh';
-      },
-      travelTime: function (value) {
-        value = isNaN(value) ? 0 : value;
-        let duration = moment.duration({hours: value});
-        if (value < 1) {
-          return duration.asMinutes().toFixed(2) + ' minutes';
-        }
-        return duration.asHours().toFixed(2) + ' hours';
       }
     }
   }
