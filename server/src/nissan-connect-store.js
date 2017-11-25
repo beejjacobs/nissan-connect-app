@@ -32,15 +32,11 @@ class NissanConnectStore {
   async getDrivingAnalysisWeek(date) {
     let key = Utils.startOfWeek(date).format('YYYY-MM-DD');
     let store = this.store.drivingAnalysisWeek;
-    if (store.hasOwnProperty(key) && !Utils.isThisWeek(date)) {
-      this.logger.log(`found ${key} in the store`);
+    if (this.useFromStore(store, Utils.isThisWeek(date), 'drivingAnalysisWeek', key)) {
       return store[key];
     }
-    this.logger.log(`can't find ${key} in store, fetching and saving`);
     let drivingAnalysisWeek = await this.nissanConnect.getDrivingAnalysisWeek(date);
-    store[key] = drivingAnalysisWeek;
-    await this.save();
-    return drivingAnalysisWeek;
+    return this.saveData(store, key, drivingAnalysisWeek);
   }
 
   /**
@@ -50,15 +46,11 @@ class NissanConnectStore {
   async getDriveRecords(date) {
     let key = moment(date).format('YYYY-MM-DD');
     let store = this.store.drivingRecord;
-    if (store.hasOwnProperty(key) && !Utils.isToday(date)) {
-      this.logger.log(`found ${key} in the store`);
+    if (this.useFromStore(store, Utils.isToday(date), 'drivingRecord', key)) {
       return store[key];
     }
-    this.logger.log(`can't find ${key} in store, fetching and saving`);
     let driveRecords = await this.nissanConnect.getDriveRecords(date);
-    store[key] = driveRecords;
-    await this.save();
-    return driveRecords;
+    return this.saveData(store, key, driveRecords);
   }
 
   /**
@@ -68,15 +60,11 @@ class NissanConnectStore {
   async getDriveRecordDays(month) {
     let key = moment(month).format('YYYY-MM');
     let store = this.store.drivingRecordCalendar;
-    if (store.hasOwnProperty(key) && !Utils.isThisMonth(month)) {
-      this.logger.log(`found ${key} in the store`);
+    if (this.useFromStore(store, Utils.isThisMonth(month), 'drivingRecordCalendar', key)) {
       return store[key];
     }
-    this.logger.log(`can't find ${key} in store, fetching and saving`);
     let calendar = await this.nissanConnect.getDriveRecordDays(month);
-    store[key] = calendar;
-    await this.save();
-    return calendar;
+    return this.saveData(store, key, calendar);
   }
 
   /**
@@ -86,15 +74,11 @@ class NissanConnectStore {
   async getDriveRecordsMonth(month) {
     let key = moment(month).format('YYYY-MM');
     let store = this.store.drivingRecordMonth;
-    if (store.hasOwnProperty(key) && !Utils.isThisMonth(month)) {
-      this.logger.log(`found ${key} in the store`);
+    if (this.useFromStore(store, Utils.isThisMonth(month), 'drivingRecordMonth', key)) {
       return store[key];
     }
-    this.logger.log(`can't find ${key} in store, fetching and saving`);
     let driveRecords = await this.nissanConnect.getDriveRecordsMonth(month);
-    store[key] = driveRecords;
-    await this.save();
-    return driveRecords;
+    return this.saveData(store, key, driveRecords);
   }
 
   /**
@@ -104,15 +88,11 @@ class NissanConnectStore {
   async getDriveRecordsYear(year) {
     let key = moment().year(year).format('YYYY');
     let store = this.store.drivingRecordYear;
-    if (store.hasOwnProperty(key) && !Utils.isThisYear(year)) {
-      this.logger.log(`found ${key} in the store`);
+    if (this.useFromStore(store, Utils.isThisYear(year), 'drivingRecordYear', key)) {
       return store[key];
     }
-    this.logger.log(`can't find ${key} in store, fetching and saving`);
     let driveRecords = await this.nissanConnect.getDriveRecordsYear(year + '-01');
-    store[key] = driveRecords;
-    await this.save();
-    return driveRecords;
+    return this.saveData(store, key, driveRecords);
   }
 
   /**
@@ -122,15 +102,11 @@ class NissanConnectStore {
   async getMonthlyTrips(month) {
     let key = moment(month).format('YYYY-MM');
     let store = this.store.monthlyTrips;
-    if (store.hasOwnProperty(key) && !Utils.isThisMonth(month)) {
-      this.logger.log(`found ${key} in the store`);
+    if (this.useFromStore(store, Utils.isThisMonth(month), 'monthlyTrips', key)) {
       return store[key];
     }
-    this.logger.log(`can't find ${key} in store, fetching and saving`);
     let trips = await this.nissanConnect.getMonthlyTrips(month);
-    store[key] = trips;
-    await this.save();
-    return trips;
+    return this.saveData(store, key, trips);
   }
 
   /**
@@ -140,15 +116,11 @@ class NissanConnectStore {
   async getMonthlyDistanceEconomy(month) {
     let key = moment(month).format('YYYY-MM');
     let store = this.store.monthlyDistanceEconomy;
-    if (store.hasOwnProperty(key) && Utils.isThisMonth(month)) {
-      this.logger.log(`found ${key} in the store`);
+    if (this.useFromStore(store, Utils.isThisMonth(month), 'monthlyDistanceEconomy', key)) {
       return store[key];
     }
-    this.logger.log(`can't find ${key} in store, fetching and saving`);
     let de = await this.nissanConnect.getMonthlyDistanceEconomy(month);
-    store[key] = de;
-    await this.save();
-    return de;
+    return this.saveData(store, key, de);
   }
 
   /**
@@ -158,15 +130,11 @@ class NissanConnectStore {
   async getMonthlyDistanceTime(month) {
     let key = moment(month).format('YYYY-MM');
     let store = this.store.monthlyDistanceTime;
-    if (store.hasOwnProperty(key) && !Utils.isThisMonth(month)) {
-      this.logger.log(`found ${key} in the store`);
+    if (this.useFromStore(store, Utils.isThisMonth(month), 'monthlyDistanceTime', key)) {
       return store[key];
     }
-    this.logger.log(`can't find ${key} in store, fetching and saving`);
     let dt = await this.nissanConnect.getMonthlyDistanceTime(month);
-    store[key] = dt;
-    await this.save();
-    return dt;
+    return this.saveData(store, key, dt);
   }
 
   /**
@@ -175,15 +143,12 @@ class NissanConnectStore {
    */
   async getMonthlyEnergyUsage(month) {
     let key = moment(month).format('YYYY-MM');
-    if (this.store.monthlyEnergyUsage.hasOwnProperty(key) && !Utils.isThisMonth(month)) {
-      this.logger.log(`found ${key} in the store`);
-      return this.store.monthlyEnergyUsage[key];
+    let store = this.store.monthlyEnergyUsage;
+    if (this.useFromStore(store, Utils.isThisMonth(month), 'monthlyEnergyUsage', key)) {
+      return store[key];
     }
-    this.logger.log(`can't find ${key} in store, fetching and saving`);
     let dt = await this.nissanConnect.getMonthlyEnergyUsage(month);
-    this.store.monthlyEnergyUsage[key] = dt;
-    await this.save();
-    return dt;
+    return this.saveData(store, key, dt);
   }
 
   /**
@@ -193,15 +158,11 @@ class NissanConnectStore {
   async getYearlyTrips(year) {
     let key = moment().year(year).format('YYYY');
     let store = this.store.yearlyTrips;
-    if (store.hasOwnProperty(key) && !Utils.isThisYear(year)) {
-      this.logger.log(`found ${key} in the store`);
+    if (this.useFromStore(store, Utils.isThisYear(year), 'yearlyTrips', key)) {
       return store[key];
     }
-    this.logger.log(`can't find ${key} in store, fetching and saving`);
     let data = await this.nissanConnect.getYearlyTrips(year + '-01');
-    store[key] = data;
-    await this.save();
-    return data;
+    return this.saveData(store, key, data);
   }
 
   /**
@@ -211,15 +172,11 @@ class NissanConnectStore {
   async getYearlyDistanceEconomy(year) {
     let key = moment().year(year).format('YYYY');
     let store = this.store.yearlyDistanceEconomy;
-    if (store.hasOwnProperty(key) && !Utils.isThisYear(year)) {
-      this.logger.log(`found ${key} in the store`);
+    if (this.useFromStore(store, Utils.isThisYear(year), 'yearlyDistanceEconomy', key)) {
       return store[key];
     }
-    this.logger.log(`can't find ${key} in store, fetching and saving`);
     let data = await this.nissanConnect.getYearlyDistanceEconomy(year + '-01');
-    store[key] = data;
-    await this.save();
-    return data;
+    return this.saveData(store, key, data);
   }
 
   /**
@@ -229,15 +186,11 @@ class NissanConnectStore {
   async getYearlyDistanceTime(year) {
     let key = moment().year(year).format('YYYY');
     let store = this.store.yearlyDistanceTime;
-    if (store.hasOwnProperty(key) && !Utils.isThisYear(year)) {
-      this.logger.log(`found ${key} in the store`);
+    if (this.useFromStore(store, Utils.isThisYear(year), 'yearlyDistanceTime', key)) {
       return store[key];
     }
-    this.logger.log(`can't find ${key} in store, fetching and saving`);
     let data = await this.nissanConnect.getYearlyDistanceTime(year + '-01');
-    store[key] = data;
-    await this.save();
-    return data;
+    return this.saveData(store, key, data);
   }
 
   /**
@@ -247,15 +200,11 @@ class NissanConnectStore {
   async getYearlyEnergyUsage(year) {
     let key = moment().year(year).format('YYYY');
     let store = this.store.yearlyEnergyUsage;
-    if (store.hasOwnProperty(key) && !Utils.isThisYear(year)) {
-      this.logger.log(`found ${key} in the store`);
+    if (this.useFromStore(store, Utils.isThisYear(year), 'yearlyEnergyUsage', key)) {
       return store[key];
     }
-    this.logger.log(`can't find ${key} in store, fetching and saving`);
     let data = await this.nissanConnect.getYearlyEnergyUsage(year + '-01');
-    store[key] = data;
-    await this.save();
-    return data;
+    return this.saveData(store, key, data);
   }
 
   /**
@@ -265,12 +214,40 @@ class NissanConnectStore {
   async getMonthTripSummary(month) {
     let key = moment(month).format('YYYY-MM');
     let store = this.store.monthTripSummary;
-    if (store.hasOwnProperty(key) && !Utils.isThisMonth(month)) {
-      this.logger.log(`found ${key} in the store`);
+    if (this.useFromStore(store, Utils.isThisMonth(month), 'monthTripSummary', key)) {
       return store[key];
     }
-    this.logger.log(`can't find ${key} in store, fetching and saving`);
     let data = await this.nissanConnect.getMonthTripSummary(month);
+    return this.saveData(store, key, data);
+  }
+
+  /**
+   * @param {object} store
+   * @param {boolean} dateCheck
+   * @param {string} method
+   * @param {string} key
+   * @return {boolean}
+   */
+  useFromStore(store, dateCheck, method, key) {
+    let inStore = store.hasOwnProperty(key);
+    if (inStore && !dateCheck) {
+      this.logger.log(`${method} found ${key}`);
+      return true;
+    } else if(!inStore && !dateCheck) {
+      this.logger.log(`${method} can't find ${key}`);
+    } else {
+      this.logger.log(`${method} date match, fetching latest for ${key}`);
+    }
+    return false;
+  }
+
+  /**
+   * @param {object} store
+   * @param {string} key
+   * @param {*} data
+   * @return {Promise.<*>}
+   */
+  async saveData(store, key, data) {
     store[key] = data;
     await this.save();
     return data;
