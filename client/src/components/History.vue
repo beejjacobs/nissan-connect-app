@@ -1,7 +1,19 @@
 <template>
-  <v-container>
-    <drive-record-day></drive-record-day>
-    <drive-record-month></drive-record-month>
+  <v-container
+      fluid
+      grid-list-lg
+  >
+    <v-layout row wrap>
+      <v-flex xs12>
+        <drive-record-day></drive-record-day>
+      </v-flex>
+      <v-flex xs12>
+        <drive-record-month></drive-record-month>
+      </v-flex>
+      <v-flex xs12>
+        <drive-record-year></drive-record-year>
+      </v-flex>
+    </v-layout>
   </v-container>
 </template>
 

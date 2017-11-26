@@ -1,7 +1,7 @@
 <template>
   <v-card>
     <v-card-title>
-      <div class="headline">Day Summary for {{day.date | calendar}}</div>
+      <div class="headline">Year Summary for {{day.year}}</div>
       <v-spacer></v-spacer>
       <v-menu
           lazy
@@ -14,19 +14,15 @@
         <v-btn dark color="teal" fab right slot="activator">
           <v-icon dark>today</v-icon>
         </v-btn>
-        <v-date-picker
+        <v-select
+            v-bind:items="availableYears"
             v-model="selectDate"
-            firstDayOfWeek="1"
-            :allowed-dates="availableDays"
-            no-title
-            scrollable
-            actions>
-          <v-card-actions slot-scope="{ save, cancel }">
-            <v-spacer></v-spacer>
-            <v-btn flat color="primary" @click="cancel">Cancel</v-btn>
-            <v-btn flat color="primary" @click="save(); loadData();">OK</v-btn>
-          </v-card-actions>
-        </v-date-picker>
+            label="Select"
+            single-line
+            bottom
+            solo
+            @input="loadData()"
+        ></v-select>
       </v-menu>
     </v-card-title>
     <v-card-text>
@@ -43,15 +39,14 @@
 
 <script>
   import moment from 'moment';
-
   export default {
-    name: 'DriveRecordDay',
+    name: 'DriveRecordYear',
     data() {
       return {
         selectDate: null,
-        availableDays: ['2017-11-11', '2017-11-12'],
+        availableYears: [],
         day: {
-          date: '2017-11-12',
+          year: '2017',
           travelDistance: 2.9,
           averageEconomy: 3.9,
           energyUsage: 0.7,
@@ -60,16 +55,18 @@
         }
       }
     },
-    mounted: function () {
-      this.$api.driveRecordAvailableDays('2017-10')
-          .then(ad => {
-            this.availableDays = ad.availableDates.map(date => moment(date).format('YYYY-MM-DD'));
-          });
+    mounted() {
+      for (let i = moment().year(); i >= 2011; i--) {
+        this.availableYears.push(i);
+      }
     },
     methods: {
       loadData: function () {
         console.log('load data', this.selectDate);
-        this.$api.driveRecordDay(this.selectDate)
+        if (!this.selectDate) {
+          return;
+        }
+        this.$api.driveRecordYear(this.selectDate)
             .then(dr => this.day = dr);
       }
     }

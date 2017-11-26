@@ -1,5 +1,6 @@
 import DriveRecordDay from './DriveRecordDay.vue';
 import DriveRecordMonth from './DriveRecordMonth.vue';
+import DriveRecordYear from './DriveRecordYear.vue';
 
 import moment from 'moment';
 
@@ -7,6 +8,7 @@ export default {
   install: Vue => {
     Vue.component('drive-record-day', DriveRecordDay);
     Vue.component('drive-record-month', DriveRecordMonth);
+    Vue.component('drive-record-year', DriveRecordYear);
     Vue.filter('travelDistance', function (value) {
       return (value * 0.000621371).toFixed(2);
     });

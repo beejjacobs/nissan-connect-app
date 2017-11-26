@@ -1,7 +1,7 @@
 <template>
   <v-card>
     <v-card-title>
-      Month Summary for {{day.date | monthYear}}
+      <div class="headline">Month Summary for {{day.date | monthYear}}</div>
       <v-spacer></v-spacer>
       <v-menu
           lazy
