@@ -30,13 +30,28 @@
       </v-menu>
     </v-card-title>
     <v-card-text>
-      <v-list>
-        <v-list-tile>Distance: {{day.travelDistance | travelDistance}} miles</v-list-tile>
-        <v-list-tile>Average Economy: {{day.averageEconomy}} miles/kWh ({{day.averageEconomy | economyWattsPerMile}} W/mile)</v-list-tile>
-        <v-list-tile>Energy Usage: {{day.energyUsage | energyUsage}}</v-list-tile>
-        <v-list-tile>Travel Time: {{day.travelTime | travelTime}}</v-list-tile>
-        <v-list-tile>CO2 Reduction: {{day.co2Saving}} kg</v-list-tile>
-      </v-list>
+      <table class="subheading">
+        <tr>
+          <td>Distance:</td>
+          <td>{{day.travelDistance | travelDistance}} miles</td>
+        </tr>
+        <tr>
+          <td>Average Economy:</td>
+          <td>{{day.averageEconomy}} miles/kWh ({{day.averageEconomy | economyWattsPerMile}} W/mile)</td>
+        </tr>
+        <tr>
+          <td>Energy Usage:</td>
+          <td>{{day.energyUsage | energyUsage}}</td>
+        </tr>
+        <tr>
+          <td>Travel Time:</td>
+          <td>{{day.travelTime | travelTime}}</td>
+        </tr>
+        <tr>
+          <td>CO2 Reduction:</td>
+          <td>{{day.co2Saving}} kg</td>
+        </tr>
+      </table>
     </v-card-text>
   </v-card>
 </template>
@@ -66,3 +81,9 @@
     }
   }
 </script>
+
+<style scoped>
+  table td {
+    padding: 5px;
+  }
+</style>
