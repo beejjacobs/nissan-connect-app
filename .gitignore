@@ -16,3 +16,5 @@ gen
 
 server/store/*
 !server/store/.gitkeep
+
+server/config-real.json
