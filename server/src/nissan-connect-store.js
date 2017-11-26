@@ -278,7 +278,12 @@ class NissanConnectStore {
 
   load() {
     this.logger.log(`loading ${this.filePath}`);
-    let file = fs.readFileSync(this.filePath, 'utf8');
+    let file;
+    try {
+      fs.readFileSync(this.filePath, 'utf8')
+    } catch (e) {
+      this.logger.log('error loading file', e);
+    }
     if (file) {
       this.store = JSON.parse(file);
     }
