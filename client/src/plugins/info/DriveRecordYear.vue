@@ -5,24 +5,18 @@
       <v-spacer></v-spacer>
       <v-menu
           lazy
-          :close-on-content-click="false"
           transition="scale-transition"
           full-width
-          max-width="290px"
-          min-width="290px"
+          min-width="100px"
       >
         <v-btn dark color="teal" fab right slot="activator">
           <v-icon dark>today</v-icon>
         </v-btn>
-        <v-select
-            v-bind:items="availableYears"
-            v-model="selectDate"
-            label="Select"
-            single-line
-            bottom
-            solo
-            @input="loadData()"
-        ></v-select>
+        <v-list>
+          <v-list-tile v-for="year in availableYears" :key="year" @click="loadData(year)">
+            <v-list-tile-title>{{year}}</v-list-tile-title>
+          </v-list-tile>
+        </v-list>
       </v-menu>
     </v-card-title>
     <v-card-text>
@@ -76,12 +70,12 @@
       }
     },
     methods: {
-      loadData: function () {
-        console.log('load data', this.selectDate);
-        if (!this.selectDate) {
+      loadData: function (year) {
+        console.log('load data', year);
+        if (!year) {
           return;
         }
-        this.$api.driveRecordYear(this.selectDate)
+        this.$api.driveRecordYear(year)
             .then(dr => this.day = dr);
       }
     }
