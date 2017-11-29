@@ -94,7 +94,7 @@ export default {
        * @return {Promise.<*>}
        */
       async acCancelSchedule() {
-        return await get('/ac/charge');
+        return await get('/ac/schedule/cancel');
       },
       /**
        * @return {Promise.<DriveAnalysis>}

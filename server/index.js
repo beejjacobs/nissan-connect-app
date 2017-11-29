@@ -65,13 +65,13 @@ app.get('/ac/schedule', function (req, res) {
       .then(data => success(res, data))
       .catch(error => failure(res, error));
 });
-app.get('/ac/schedule/:schedule', function (req, res) {
-  nissanConnect.setAcSchedule(req.params.schedule)
+app.get('/ac/schedule/cancel', function (req, res) {
+  nissanConnect.cancelAcSchedule()
       .then(data => success(res, data))
       .catch(error => failure(res, error));
 });
-app.get('/ac/schedule/cancel', function (req, res) {
-  nissanConnect.cancelAcSchedule()
+app.get('/ac/schedule/:schedule', function (req, res) {
+  nissanConnect.setAcSchedule(req.params.schedule)
       .then(data => success(res, data))
       .catch(error => failure(res, error));
 });

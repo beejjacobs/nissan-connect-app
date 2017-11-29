@@ -13,11 +13,11 @@
       </span>
     </v-flex>
     <v-flex v-if="schedule">
-      Schedule is set for <span>{{ scheduleTime }}</span>
-      <v-btn>Cancel</v-btn>
+      Schedule is set for <span>{{ schedule | timeDate }}</span>
+      <v-btn @click="cancel()">Cancel</v-btn>
     </v-flex>
     <v-flex md12>
-      Set AC Schedule:
+      <span v-if="schedule">Update</span><span v-else>Set</span> AC Schedule:
       <v-menu
           lazy
           :close-on-content-click="false"
@@ -70,7 +70,7 @@
           </v-card-actions>
         </v-time-picker>
       </v-menu>
-      <v-btn primary>Set</v-btn>
+      <v-btn primary @click="set()">Set</v-btn>
     </v-flex>
     <v-flex md12>
     </v-flex>
@@ -95,9 +95,28 @@
         }
       }
     },
-    computed: {
-      scheduleTime: function () {
-        return moment(this.schedule).format('HH:mm DD-MM-YYYY');
+    methods: {
+      cancel() {
+        this.$api.acCancelSchedule()
+            .then(() => this.schedule = null);
+      },
+      set() {
+        let dateTime = this.timer.date + ' ' + this.timer.time;
+        this.$api.acSetSchedule(dateTime)
+            .then(ac => {
+              this.schedule = ac.isSet ? ac.executeTime : null;
+            });
+      }
+    },
+    mounted() {
+      this.$api.acSchedule()
+          .then(ac => {
+            this.schedule = ac.isSet ? ac.executeTime : null;
+          });
+    },
+    filters: {
+      timeDate: function (value) {
+        return moment(value).format('HH:mm DD-MM-YYYY');
       }
     }
   }
