@@ -10,7 +10,7 @@
     "build": "node build/build.js"
   },
   "dependencies": {
-    "@beejjacobs/nissan-connect": "^1.0.5",
+    "@beejjacobs/nissan-connect": "^1.0.7",
     "moment": "^2.19.2",
     "vue": "^2.5.8",
     "vue-material": "^0.8.1",
