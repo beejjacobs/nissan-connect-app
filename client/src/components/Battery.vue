@@ -5,36 +5,33 @@
                    stroke-width="4"
                    stroke-color="#808080"
                    fill-color="#009688"
-                   :charging="charging"
-                   :level="battery.level"></battery-level>
+                   :charging="isCharging"
+                   :level="status.chargeState"></battery-level>
     <div style="float: right;">
-      <h4>Range: {{ battery.range.withoutAc }} miles</h4>
-      <h4>with ac: {{ battery.range.withAc }} miles</h4>
-      <h4>Charge level: {{battery.level}}/12</h4>
-      <h4 v-if="charging">Charging</h4>
-      <v-btn v-if="!charging && pluggedIn" @click="startCharge">Start Charging</v-btn>
+      <h4>Range: {{ status.range | mToMiles }} miles</h4>
+      <h4>with ac: {{ status.rangeWithAc | mToMiles }} miles</h4>
+      <h4>Charge level: {{status.chargeState | chargePercentage}}%</h4>
+      <h4 v-if="isCharging">Charging</h4>
+      <v-btn v-if="!isCharging && pluggedIn" @click="startCharge">Start Charging</v-btn>
       <h4 v-if="pluggedIn">Plugged In</h4>
       <h4 v-else="">Unplugged</h4>
-      <h5>Time Left:</h5>
-      <table>
-        <tr v-if="timeToCharge.standard">
+      <h5 v-if="isCharging">Time Left:</h5>
+      <table v-if="isCharging">
+        <tr v-if="status.timeToFull">
           <td>Standard</td>
-          <td>{{timeToCharge.standard}}</td>
+          <td>{{status.timeToFull | timeToCharge}}</td>
         </tr>
-        <tr v-if="timeToCharge.kw3">
+        <tr v-if="status.timeToFull3kW">
           <td>3kW</td>
-          <td>{{timeToCharge.kw3}}</td>
+          <td>{{status.timeToFull3kW | timeToCharge}}</td>
         </tr>
-        <tr v-if="timeToCharge.kw6">
+        <tr v-if="status.timeToFull6kW">
           <td>6kW</td>
-          <td>{{timeToCharge.kw6}}</td>
+          <td>{{status.timeToFull6kW | timeToCharge}}</td>
         </tr>
       </table>
     </div>
-    <div>Last updated: {{updatedTime}}</div>
-    <v-slider v-model="battery.level" thumb-label step="1" min="0" max="12"></v-slider>
-    <v-checkbox v-model="charging" light></v-checkbox>
-    <v-checkbox v-model="pluggedIn" light></v-checkbox>
+    <div v-if="updateTime">Last updated: {{updateTime | calendar}}</div>
     <v-btn
         color="pink"
         dark
@@ -43,6 +40,7 @@
         right
         fab
         fixed
+        @click="refresh()"
     >
       <v-icon>refresh</v-icon>
     </v-btn>
@@ -55,52 +53,66 @@
     name: 'Battery',
     data () {
       return {
-        battery: {
-          level: 0,
-          updated: '2017-11-10 13:30',
-          range: {
-            withAc: 65,
-            withoutAc: 70
-          }
+        status: {
+          range: 0,
+          rangeWithAc: 0,
+          chargeLevel: '',
+          chargeMode: '',
+          pluginState: 'NOT_CONNECTED',
+          isCharging: 'false',
+          chargeStatus: '',
+          capacity: '',
+          chargeState: 0,
+          timeToFull: moment.duration(0),
+          timeToFull3kW: moment.duration(0),
+          timeToFull6kW: moment.duration(0)
         },
-        timeToFull: {
-          standard: {hours: 9},
-          kw3: {hours: 7, minutes: 30},
-          kw6: null
-        },
-        charging: true,
-        pluggedIn: true,
         batteryWidth: 150,
-        batteryHeight: 300
+        batteryHeight: 300,
+        updateTime: ''
       }
     },
     computed: {
-      updatedTime: function () {
-        return moment(this.battery.updated).calendar();
+      pluggedIn() {
+        return this.status.pluginState !== 'NOT_CONNECTED';
       },
-      timeToCharge: function () {
-        function format(time) {
-          console.log(time);
-          if (time === null) {
-            return null;
-          }
-          let duration = moment.duration(time);
-          let minutes = duration.minutes();
-          if (minutes < 10) {
-            minutes = '0' + minutes;
-          }
-          return duration.hours() + ':' + minutes;
+      isCharging() {
+        return this.status.isCharging === 'YES';
+      }
+    },
+    filters: {
+      timeToCharge(value) {
+        if (value === null) {
+          return null;
         }
-        return {
-          standard: format(this.timeToFull.standard),
-          kw3: format(this.timeToFull.kw3),
-          kw6: format(this.timeToFull.kw6)
-        };
+        let duration = moment.duration(value);
+        let minutes = duration.minutes();
+        if (minutes < 10) {
+          minutes = '0' + minutes;
+        }
+        return duration.hours() + ':' + minutes;
+      },
+      mToMiles(value) {
+        return (value * 0.000621371).toFixed(2);
+      },
+      calendar(value) {
+        return moment(value).calendar();
+      },
+      chargePercentage(value) {
+        return (value / 0.12).toFixed(0);
       }
     },
     methods: {
-      startCharge: function () {
-        console.log('start charge');
+      startCharge() {
+        this.$api.batteryCharge()
+            .then(() => this.charging = true);
+      },
+      refresh() {
+        this.$api.batteryStatus()
+            .then(bs => {
+              this.updateTime = bs.updateTime;
+              this.status = bs.batteryStatus;
+            });
       }
     }
   }

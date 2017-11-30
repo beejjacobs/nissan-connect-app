@@ -84,7 +84,7 @@
     data() {
       return {
         acOn: false,
-        schedule: '2017-07-01 09:30',
+        schedule: null,
         timer: {
           date: null,
           time: null
