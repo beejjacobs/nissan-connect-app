@@ -3,6 +3,10 @@
     <v-toolbar app color="primary">
       <v-toolbar-title class="white--text">{{ title }}</v-toolbar-title>
       <v-spacer></v-spacer>
+      <v-btn flat :to="{path:'/info'}" exact>
+        <v-icon left>info</v-icon>
+        <span>Info</span>
+      </v-btn>
       <v-btn flat :to="{path:'/'}" exact>
         <v-icon left>ev_station</v-icon>
         <span>Battery</span>

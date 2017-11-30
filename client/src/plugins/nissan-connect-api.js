@@ -227,7 +227,7 @@ export default {
        */
       async vehicleInfo() {
         let res = await get('/vehicle/info');
-        return new VehicleInfo(res);
+        return new VehicleInfo({vehicleInfo: res});
       }
     };
   }
