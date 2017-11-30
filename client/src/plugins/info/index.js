@@ -2,6 +2,8 @@ import DriveRecordDay from './DriveRecordDay.vue';
 import DriveRecordMonth from './DriveRecordMonth.vue';
 import DriveRecordYear from './DriveRecordYear.vue';
 import VehicleInfo from './VehicleInfo.vue';
+import DriveAnalysis from './DriveAnalysis.vue';
+import DriveAnalysisWeek from './DriveAnalysisWeek.vue';
 
 import moment from 'moment';
 
@@ -11,6 +13,8 @@ export default {
     Vue.component('drive-record-month', DriveRecordMonth);
     Vue.component('drive-record-year', DriveRecordYear);
     Vue.component('vehicle-info', VehicleInfo);
+    Vue.component('drive-analysis', DriveAnalysis);
+    Vue.component('drive-analysis-week', DriveAnalysisWeek);
 
     Vue.filter('travelDistance', function (value) {
       return (value * 0.000621371).toFixed(2);
@@ -30,7 +34,7 @@ export default {
       }
       return duration.asHours().toFixed(0) + ' hours ' + duration.minutes() + ' minutes';
     });
-    Vue.filter('economyWattsPerMile', function(value) {
+    Vue.filter('economyWhPerMile', function(value) {
       let number = Math.round(1000 / value);
       return isFinite(number) ? number : 0;
     });

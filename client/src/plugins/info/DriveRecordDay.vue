@@ -37,7 +37,7 @@
         </tr>
         <tr>
           <td>Average Economy:</td>
-          <td>{{day.averageEconomy}} miles/kWh ({{day.averageEconomy | economyWattsPerMile}} W/mile)</td>
+          <td>{{day.averageEconomy}} miles/kWh ({{day.averageEconomy | economyWhPerMile}} Wh/mile)</td>
         </tr>
         <tr>
           <td>Energy Usage:</td>

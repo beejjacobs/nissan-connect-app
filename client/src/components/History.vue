@@ -5,6 +5,12 @@
   >
     <v-layout row wrap>
       <v-flex xs12>
+        <drive-analysis></drive-analysis>
+      </v-flex>
+      <v-flex xs12>
+        <drive-analysis-week></drive-analysis-week>
+      </v-flex>
+      <v-flex xs12>
         <drive-record-day></drive-record-day>
       </v-flex>
       <v-flex xs12>
