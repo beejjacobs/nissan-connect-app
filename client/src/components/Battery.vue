@@ -102,6 +102,10 @@
         return (value / 0.12).toFixed(0);
       }
     },
+    mounted() {
+      this.$api.batteryLastStatus()
+          .then(bs => this.status = bs);
+    },
     methods: {
       startCharge() {
         this.$api.batteryCharge()
