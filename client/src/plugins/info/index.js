@@ -41,6 +41,9 @@ export default {
       return moment(value).format('YYYY-MM-DD');
     });
     Vue.filter('calendar', function (value) {
+      if (!value) {
+        return '';
+      }
       return moment(value).calendar(null, {
         sameDay: '[Today]',
         nextDay: '[Tomorrow]',

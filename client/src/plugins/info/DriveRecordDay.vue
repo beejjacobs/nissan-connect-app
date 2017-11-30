@@ -61,25 +61,39 @@
 
   export default {
     name: 'DriveRecordDay',
+    props: {
+      startDate: {
+        type: String,
+        default: '2017-09'
+      }
+    },
     data() {
       return {
         selectDate: null,
-        availableDays: ['2017-11-11', '2017-11-12'],
+        availableDays: null,
         day: {
-          date: '2017-11-12',
-          travelDistance: 2.9,
-          averageEconomy: 3.9,
-          energyUsage: 0.7,
-          travelTime: 0.1,
-          co2Saving: 1
+          date: '',
+          travelDistance: 0,
+          averageEconomy: 0,
+          energyUsage: 0,
+          travelTime: 0,
+          co2Saving: 0
         }
       }
     },
-    mounted: function () {
-      this.$api.driveRecordAvailableDays('2017-10')
-          .then(ad => {
-            this.availableDays = ad.availableDates.map(date => moment(date).format('YYYY-MM-DD'));
-          });
+    mounted () {
+      let start = moment(this.startDate);
+      let months = moment().diff(start, 'months');
+      let startMonth = start.month();
+      for (let i = startMonth; i <= startMonth + months; i++) {
+        this.$api.driveRecordAvailableDays(moment(start).month(i).format('YYYY-MM'))
+            .then(ad => {
+              if (this.availableDays === null) {
+                this.availableDays = [];
+              }
+              ad.availableDates.forEach(date => this.availableDays.push(date.format('YYYY-MM-DD')));
+            });
+      }
     },
     methods: {
       loadData: function () {
