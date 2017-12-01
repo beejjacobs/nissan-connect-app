@@ -1,7 +1,7 @@
 <template>
   <v-card>
     <v-card-title>
-      <div class="headline">Week Summary for  {{startDate | calendar}}</div>
+      <div class="headline">Trips for {{selectedDate | monthYear}}</div>
       <v-spacer></v-spacer>
       <v-menu
           lazy
@@ -17,6 +17,7 @@
         <v-date-picker
             v-model="selectedDate"
             firstDayOfWeek="1"
+            type="month"
             no-title
             scrollable
             actions>
@@ -29,47 +30,20 @@
       </v-menu>
     </v-card-title>
     <v-card-text>
-      <table class="subheading">
-        <thead>
-          <tr>
-            <td>Date</td>
-            <td>Economy</td>
-            <td>Energy</td>
-            <td>Regen</td>
-            <td>Accessory</td>
-          </tr>
-        </thead>
-        <tr v-for="summary in summaries">
-          <td>{{summary.targetDate}}</td>
-          <td>{{summary.averageEconomy}} miles/kWh ({{summary.averageEconomy | economyWhPerMile}} Wh/mile)</td>
-          <td>{{summary.accelerationEnergy | oneDp}} Wh</td>
-          <td>{{summary.regen | oneDp}} Wh</td>
-          <td>{{summary.accessoryUsage | oneDp}} Wh</td>
-        </tr>
-      </table>
+      <div ref="chart"></div>
     </v-card-text>
   </v-card>
 </template>
 
 <script>
+  import Chart from 'frappe-charts/dist/frappe-charts.min.esm';
+  import moment from 'moment';
   export default {
-    name: 'DriveAnalysisWeek',
+    name: 'TripMonth',
     data() {
       return {
         selectedDate: null,
-        startDate: '',
-        summaries: [{
-          targetDate: '',
-          hasData: false,
-          averageEconomy: 0,
-          averageEconomyLevel: 1,
-          accelerationEnergy: 0,
-          accelerationEnergyLevel: 1,
-          regen: 0,
-          regenLevel: 1,
-          accessoryUsage: 0,
-          accessoryUsageLevel: 1
-        }]
+        data: []
       }
     },
     filters: {
@@ -79,11 +53,31 @@
     },
     methods: {
       loadData() {
-        this.$api.driveAnalysisWeek(this.selectedDate)
-            .then(daw => {
-              this.startDate = daw.startDate;
-              this.summaries = daw.days;
+        this.$api.tripMonth(this.selectedDate)
+            .then(gdp => {
+              this.data = gdp;
+              this.showChart();
             });
+      },
+      showChart() {
+        let data = {
+          labels: this.data.map(point => point.date),
+          datasets: [
+            {
+              title: "Trips",
+              values: this.data.map(point => point.value)
+            }
+          ]
+        };
+        let chart = new Chart({
+          parent: this.$refs.chart,
+          data: data,
+          type: 'bar',
+          height: 250,
+          colors: ['#7cd6fd', 'violet', 'blue'],
+          format_tooltip_x: d => moment(this.selectedDate).date(d).format('Do'),
+          format_tooltip_y: d => d
+        });
       }
     }
   }

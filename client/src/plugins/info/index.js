@@ -4,6 +4,14 @@ import DriveRecordYear from './DriveRecordYear.vue';
 import VehicleInfo from './VehicleInfo.vue';
 import DriveAnalysis from './DriveAnalysis.vue';
 import DriveAnalysisWeek from './DriveAnalysisWeek.vue';
+import TripMonth from './TripMonth.vue';
+import TripYear from './TripYear.vue';
+import EnergyUsageMonth from './EnergyUsageMonth.vue';
+import EnergyUsageYear from './EnergyUsageYear.vue';
+import DistanceEconomyMonth from './DistanceEconomyMonth.vue';
+import DistanceEconomyYear from './DistanceEconomyYear.vue';
+import DistanceTimeMonth from './DistanceTimeMonth.vue';
+import DistanceTimeYear from './DistanceTimeYear.vue';
 
 import moment from 'moment';
 
@@ -15,6 +23,14 @@ export default {
     Vue.component('vehicle-info', VehicleInfo);
     Vue.component('drive-analysis', DriveAnalysis);
     Vue.component('drive-analysis-week', DriveAnalysisWeek);
+    Vue.component('trip-month', TripMonth);
+    Vue.component('trip-year', TripYear);
+    Vue.component('energy-usage-month', EnergyUsageMonth);
+    Vue.component('energy-usage-year', EnergyUsageYear);
+    Vue.component('distance-economy-month', DistanceEconomyMonth);
+    Vue.component('distance-economy-year', DistanceEconomyYear);
+    Vue.component('distance-time-month', DistanceTimeMonth);
+    Vue.component('distance-time-year', DistanceTimeYear);
 
     Vue.filter('travelDistance', function (value) {
       return (value * 0.000621371).toFixed(2);
@@ -39,16 +55,29 @@ export default {
       return isFinite(number) ? number : 0;
     });
     Vue.filter('monthYear', function (value) {
-      return moment(value).format('MMMM YYYY');
+      let date = moment(value);
+      if (!date.isValid()) {
+        return '';
+      }
+      return date.format('MMMM YYYY');
     });
     Vue.filter('ddMMYYYY', function (value) {
+      let date = moment(value);
+      if (!date.isValid()) {
+        return '';
+      }
       return moment(value).format('DD/MM/YYYY');
     });
     Vue.filter('YYYY-MM-DD', function (value) {
+      let date = moment(value);
+      if (!date.isValid()) {
+        return '';
+      }
       return moment(value).format('YYYY-MM-DD');
     });
     Vue.filter('calendar', function (value) {
-      if (!value) {
+      let date = moment(value);
+      if (!date.isValid()) {
         return '';
       }
       return moment(value).calendar(null, {

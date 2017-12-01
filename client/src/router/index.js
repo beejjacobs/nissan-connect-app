@@ -4,6 +4,7 @@ import Ac from '@/components/Ac'
 import Battery from '@/components/Battery'
 import History from '@/components/History'
 import Info from '@/components/Info'
+import Test from '@/components/Test'
 
 Vue.use(Router);
 
@@ -32,6 +33,12 @@ export default new Router({
       name: 'Info',
       component: Info,
       meta: {title: 'Info'}
+    },
+    {
+      path: '/test',
+      name: 'Test',
+      component: Test,
+      meta: {title: 'Test'}
     }
   ]
 })
