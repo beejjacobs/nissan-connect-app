@@ -15,7 +15,7 @@
   import Chart from 'frappe-charts/dist/frappe-charts.min.esm';
   import moment from 'moment';
   export default {
-    name: 'EnergyUsageMonth',
+    name: 'energy-usage-month',
     data() {
       return {
         selectedDate: null,

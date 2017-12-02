@@ -35,7 +35,7 @@
 <script>
   import moment from 'moment';
   export default {
-    name: 'DriveRecordYear',
+    name: 'drive-record-year',
     data() {
       return {
         day: {

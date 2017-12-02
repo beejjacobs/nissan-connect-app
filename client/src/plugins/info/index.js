@@ -22,24 +22,29 @@ import moment from 'moment';
 
 export default {
   install: Vue => {
-    Vue.component('date-picker', DatePicker);
-    Vue.component('month-picker', MonthPicker);
-    Vue.component('year-picker', YearPicker);
-    Vue.component('drive-record-day', DriveRecordDay);
-    Vue.component('drive-record-month', DriveRecordMonth);
-    Vue.component('drive-record-year', DriveRecordYear);
-    Vue.component('vehicle-info', VehicleInfo);
-    Vue.component('drive-analysis', DriveAnalysis);
-    Vue.component('drive-analysis-week', DriveAnalysisWeek);
-    Vue.component('trip-month', TripMonth);
-    Vue.component('trip-year', TripYear);
-    Vue.component('energy-usage-month', EnergyUsageMonth);
-    Vue.component('energy-usage-year', EnergyUsageYear);
-    Vue.component('distance-economy-month', DistanceEconomyMonth);
-    Vue.component('distance-economy-year', DistanceEconomyYear);
-    Vue.component('distance-time-month', DistanceTimeMonth);
-    Vue.component('distance-time-year', DistanceTimeYear);
-    Vue.component('trip-month-summary', TripMonthSummary);
+    const components = [
+      DatePicker,
+      DistanceEconomyMonth,
+      DistanceEconomyYear,
+      DistanceTimeMonth,
+      DistanceTimeYear,
+      DriveAnalysis,
+      DriveAnalysisWeek,
+      DriveRecordDay,
+      DriveRecordMonth,
+      DriveRecordYear,
+      EnergyUsageMonth,
+      EnergyUsageYear,
+      MonthPicker,
+      TripMonth,
+      TripMonthSummary,
+      TripYear,
+      VehicleInfo,
+      YearPicker
+    ];
+    components.forEach(component => {
+      Vue.component(component.name, component);
+    });
 
     Vue.filter('travelDistance', function (value) {
       return (value * 0.000621371).toFixed(2);

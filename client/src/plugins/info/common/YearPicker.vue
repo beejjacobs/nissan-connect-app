@@ -19,7 +19,7 @@
 <script>
   import moment from 'moment';
   export default {
-    name: 'YearPicker',
+    name: 'year-picker',
     props: {
       first: {
         type: Number,

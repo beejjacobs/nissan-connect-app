@@ -28,7 +28,7 @@
 
 <script>
   export default {
-    name: 'DatePicker',
+    name: 'date-picker',
     props: {
       days: {
         type: Array,

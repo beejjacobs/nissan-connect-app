@@ -28,7 +28,7 @@
 
 <script>
   export default {
-    name: 'VehicleInfo',
+    name: 'vehicle-info',
     data() {
       return {
         info: {

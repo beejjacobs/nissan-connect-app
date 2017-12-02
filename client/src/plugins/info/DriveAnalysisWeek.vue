@@ -30,7 +30,7 @@
 
 <script>
   export default {
-    name: 'DriveAnalysisWeek',
+    name: 'drive-analysis-week',
     data() {
       return {
         selectedDate: null,

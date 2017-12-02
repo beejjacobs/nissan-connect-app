@@ -34,7 +34,7 @@
 
 <script>
   export default {
-    name: 'DriveRecordMonth',
+    name: 'drive-record-month',
     data() {
       return {
         day: {

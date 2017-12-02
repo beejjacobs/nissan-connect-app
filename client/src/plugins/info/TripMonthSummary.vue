@@ -67,7 +67,7 @@
 <script>
   import moment from 'moment';
   export default {
-    name: 'TripMonthSummary',
+    name: 'trip-month-summary',
     data() {
       return {
         selectedDate: null,

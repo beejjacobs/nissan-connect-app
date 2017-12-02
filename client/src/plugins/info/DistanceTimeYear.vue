@@ -15,7 +15,7 @@
   import Chart from 'frappe-charts/dist/frappe-charts.min.esm';
   import moment from 'moment';
   export default {
-    name: 'DistanceTimeYear',
+    name: 'distance-time-year',
     data() {
       return {
         selectedDate: null,

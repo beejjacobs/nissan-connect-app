@@ -15,7 +15,7 @@
   import Chart from 'frappe-charts/dist/frappe-charts.min.esm';
   import moment from 'moment';
   export default {
-    name: 'DistanceEconomyMonth',
+    name: 'distance-economy-month',
     data() {
       return {
         selectedDate: null,

@@ -32,7 +32,7 @@
 
 <script>
   export default {
-    name: 'DriveAnalysis',
+    name: 'drive-analysis',
     data() {
       return {
         summary: {

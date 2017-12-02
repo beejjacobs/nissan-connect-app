@@ -35,7 +35,7 @@
 <script>
   import moment from 'moment';
   export default {
-    name: 'DriveRecordDay',
+    name: 'drive-record-day',
     props: {
       startDate: {
         type: String,

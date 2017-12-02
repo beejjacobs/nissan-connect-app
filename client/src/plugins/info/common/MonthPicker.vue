@@ -28,7 +28,7 @@
 
 <script>
   export default {
-    name: 'MonthPicker',
+    name: 'month-picker',
     data() {
       return {
         month: null
