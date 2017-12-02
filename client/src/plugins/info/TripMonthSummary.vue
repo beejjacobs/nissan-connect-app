@@ -1,0 +1,130 @@
+<template>
+  <v-card>
+    <v-card-title>
+      <div class="headline">Trip Summary for {{selectedDate | monthYear}}</div>
+      <v-spacer></v-spacer>
+      <v-menu
+          lazy
+          :close-on-content-click="false"
+          transition="scale-transition"
+          full-width
+          max-width="290px"
+          min-width="290px"
+      >
+        <v-btn dark color="teal" fab right slot="activator">
+          <v-icon dark>today</v-icon>
+        </v-btn>
+        <v-date-picker
+            v-model="selectedDate"
+            firstDayOfWeek="1"
+            type="month"
+            no-title
+            scrollable
+            actions>
+          <v-card-actions slot-scope="{ save, cancel }">
+            <v-spacer></v-spacer>
+            <v-btn flat color="primary" @click="cancel">Cancel</v-btn>
+            <v-btn flat color="primary" @click="save(); loadData();">OK</v-btn>
+          </v-card-actions>
+        </v-date-picker>
+      </v-menu>
+    </v-card-title>
+    <v-card-text>
+      <table class="subheading">
+        <tr>
+          <td>Number of Trips:</td>
+          <td>{{summary.total.numberOfTrips}}</td>
+        </tr>
+        <tr>
+          <td>Distance:</td>
+          <td>{{summary.total.travelDistance | travelDistance}} miles</td>
+        </tr>
+        <tr>
+          <td>Average Economy:</td>
+          <td>{{summary.total.averageEconomy | twoDp}} miles/kWh ({{summary.total.averageEconomy | economyWhPerMile}} Wh/mile)</td>
+        </tr>
+        <tr>
+          <td>Energy Usage:</td>
+          <td>{{summary.total.accelerationEnergy | energyUsage}}</td>
+        </tr>
+        <tr>
+          <td>Regen:</td>
+          <td>{{summary.total.regen | energyUsage}}</td>
+        </tr>
+        <tr>
+          <td>Net Usage:</td>
+          <td>{{summary.total.energyUsage | energyUsage}}</td>
+        </tr>
+        <tr>
+          <td>CO2 Reduction:</td>
+          <td>{{summary.total.co2Saving}} kg</td>
+        </tr>
+      </table>
+      <table class="subheading">
+        <thead>
+        <tr>
+          <td>Date</td>
+          <td>Number</td>
+          <td>Distance</td>
+          <td>Economy</td>
+          <td>Energy</td>
+          <td>Regen</td>
+          <td>Net Energy</td>
+        </tr>
+        </thead>
+        <template v-for="day in summary.days">
+          <tr v-for="trip in day.trips">
+            <td>{{ trip.number === 1 ? day.date : ''  | ddMMYYYY}}</td>
+            <td>{{trip.number}}</td>
+            <td>{{trip.travelDistance | travelDistance}}</td>
+            <td>{{trip.averageEconomy}} miles/kWh ({{trip.averageEconomy | economyWhPerMile}} Wh/mile)</td>
+            <td>{{trip.accelerationEnergy | oneDp}} Wh</td>
+            <td>{{trip.regen | oneDp}} Wh</td>
+            <td>{{trip.energyUsage | oneDp}} Wh</td>
+          </tr>
+        </template>
+      </table>
+    </v-card-text>
+  </v-card>
+</template>
+
+<script>
+  import moment from 'moment';
+  export default {
+    name: 'TripMonthSummary',
+    data() {
+      return {
+        selectedDate: null,
+        summary: {
+          total: {}
+        }
+      }
+    },
+    filters: {
+      oneDp(value) {
+        return value.toFixed(1);
+      },
+      twoDp(value) {
+        console.log(value);
+        return value.toFixed(2);
+      }
+    },
+    methods: {
+      loadData() {
+        this.$api.tripMonthSummary(this.selectedDate)
+            .then(tsm => this.summary = tsm);
+      }
+    }
+  }
+</script>
+
+<style scoped>
+  table thead td {
+    text-align: left;
+    font-weight: bold;
+  }
+  table td {
+    padding: 5px;
+    text-align: right;
+  }
+</style>

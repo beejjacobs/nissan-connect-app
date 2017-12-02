@@ -12,6 +12,7 @@ import DistanceEconomyMonth from './DistanceEconomyMonth.vue';
 import DistanceEconomyYear from './DistanceEconomyYear.vue';
 import DistanceTimeMonth from './DistanceTimeMonth.vue';
 import DistanceTimeYear from './DistanceTimeYear.vue';
+import TripMonthSummary from './TripMonthSummary.vue';
 
 import moment from 'moment';
 
@@ -31,6 +32,7 @@ export default {
     Vue.component('distance-economy-year', DistanceEconomyYear);
     Vue.component('distance-time-month', DistanceTimeMonth);
     Vue.component('distance-time-year', DistanceTimeYear);
+    Vue.component('trip-month-summary', TripMonthSummary);
 
     Vue.filter('travelDistance', function (value) {
       return (value * 0.000621371).toFixed(2);

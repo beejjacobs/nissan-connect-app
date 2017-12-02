@@ -5,6 +5,9 @@
   >
     <v-layout row wrap>
       <v-flex xs12>
+        <trip-month-summary></trip-month-summary>
+      </v-flex>
+      <v-flex xs12>
         <trip-year></trip-year>
       </v-flex>
       <v-flex xs12>

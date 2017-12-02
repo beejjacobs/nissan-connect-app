@@ -170,7 +170,7 @@ export default {
        * @return {Promise.<TripSummaryMonth>}
        */
       async tripMonthSummary(month) {
-        let res = await get('/drive/trip/month/summary/', month);
+        let res = await get('/drive/trip/summary/', month);
         return new TripSummaryMonth(res);
       },
       /**
