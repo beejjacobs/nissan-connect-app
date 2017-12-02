@@ -5,12 +5,14 @@
       <v-icon x-large>toys</v-icon>
         AC is on
       </span>
+      <v-btn secondary @click="turnAcOff()">Turn Off</v-btn>
     </v-flex>
     <v-flex v-else="">
       <span>
       <v-icon x-large>toys</v-icon>
         AC is off
       </span>
+      <v-btn primary @click="turnAcOn()">Turn on</v-btn>
     </v-flex>
     <v-flex v-if="schedule">
       Schedule is set for <span>{{ schedule | timeDate }}</span>
@@ -106,6 +108,12 @@
             .then(ac => {
               this.schedule = ac.isSet ? ac.executeTime : null;
             });
+      },
+      turnAcOn() {
+        this.$api.acOn().then(() => this.acOn = true);
+      },
+      turnAcOff() {
+        this.$api.acOff().then(() => this.acOn = false);
       }
     },
     mounted() {
