@@ -91,5 +91,11 @@ export default {
         sameElse: 'DD/MM/YYYY'
       });
     });
+    Vue.filter('oneDp', function (value) {
+      return value.toFixed(1);
+    });
+    Vue.filter('twoDp', function (value) {
+      return value.toFixed(2);
+    });
   }
 }

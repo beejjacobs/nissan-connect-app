@@ -100,15 +100,6 @@
         }
       }
     },
-    filters: {
-      oneDp(value) {
-        return value.toFixed(1);
-      },
-      twoDp(value) {
-        console.log(value);
-        return value.toFixed(2);
-      }
-    },
     methods: {
       loadData() {
         this.$api.tripMonthSummary(this.selectedDate)

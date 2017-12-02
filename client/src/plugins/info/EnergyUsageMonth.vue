@@ -46,11 +46,6 @@
         data: []
       }
     },
-    filters: {
-      oneDp(value) {
-        return value.toFixed(1);
-      }
-    },
     methods: {
       loadData() {
         this.$api.energyUsageMonth(this.selectedDate)

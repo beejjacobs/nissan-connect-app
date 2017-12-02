@@ -38,11 +38,6 @@
         availableYears: []
       }
     },
-    filters: {
-      oneDp(value) {
-        return value.toFixed(1);
-      }
-    },
     mounted() {
       for (let i = moment().year(); i >= 2011; i--) {
         this.availableYears.push(i);

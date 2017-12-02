@@ -72,11 +72,6 @@
         }]
       }
     },
-    filters: {
-      oneDp(value) {
-        return value.toFixed(1);
-      }
-    },
     methods: {
       loadData() {
         this.$api.driveAnalysisWeek(this.selectedDate)
