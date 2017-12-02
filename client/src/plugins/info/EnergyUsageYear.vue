@@ -3,22 +3,7 @@
     <v-card-title>
       <div class="headline">Energy Usage for {{selectedDate}}</div>
       <v-spacer></v-spacer>
-      <v-spacer></v-spacer>
-      <v-menu
-          lazy
-          transition="scale-transition"
-          full-width
-          min-width="100px"
-      >
-        <v-btn dark color="teal" fab right slot="activator">
-          <v-icon dark>today</v-icon>
-        </v-btn>
-        <v-list>
-          <v-list-tile v-for="year in availableYears" :key="year" @click="loadData(year)">
-            <v-list-tile-title>{{year}}</v-list-tile-title>
-          </v-list-tile>
-        </v-list>
-      </v-menu>
+      <year-picker @selected="loadData"></year-picker>
     </v-card-title>
     <v-card-text>
       <div ref="chart"></div>
@@ -35,19 +20,13 @@
       return {
         selectedDate: null,
         data: [],
-        availableYears: []
-      }
-    },
-    mounted() {
-      for (let i = moment().year(); i >= 2011; i--) {
-        this.availableYears.push(i);
       }
     },
     methods: {
       loadData(year) {
-        this.selectedDate = year;
         this.$api.energyUsageYear(year)
             .then(gdp => {
+              this.selectedDate = year;
               this.data = gdp;
               this.showChart();
             });

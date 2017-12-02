@@ -14,10 +14,17 @@ import DistanceTimeMonth from './DistanceTimeMonth.vue';
 import DistanceTimeYear from './DistanceTimeYear.vue';
 import TripMonthSummary from './TripMonthSummary.vue';
 
+import DatePicker from './common/DatePicker.vue';
+import MonthPicker from './common/MonthPicker.vue';
+import YearPicker from './common/YearPicker.vue';
+
 import moment from 'moment';
 
 export default {
   install: Vue => {
+    Vue.component('date-picker', DatePicker);
+    Vue.component('month-picker', MonthPicker);
+    Vue.component('year-picker', YearPicker);
     Vue.component('drive-record-day', DriveRecordDay);
     Vue.component('drive-record-month', DriveRecordMonth);
     Vue.component('drive-record-year', DriveRecordYear);
@@ -92,9 +99,15 @@ export default {
       });
     });
     Vue.filter('oneDp', function (value) {
+      if (!value) {
+        return value;
+      }
       return value.toFixed(1);
     });
     Vue.filter('twoDp', function (value) {
+      if (!value) {
+        return value;
+      }
       return value.toFixed(2);
     });
   }

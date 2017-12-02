@@ -3,21 +3,7 @@
     <v-card-title>
       <div class="headline">Year Summary for {{day.year}}</div>
       <v-spacer></v-spacer>
-      <v-menu
-          lazy
-          transition="scale-transition"
-          full-width
-          min-width="100px"
-      >
-        <v-btn dark color="teal" fab right slot="activator">
-          <v-icon dark>today</v-icon>
-        </v-btn>
-        <v-list>
-          <v-list-tile v-for="year in availableYears" :key="year" @click="loadData(year)">
-            <v-list-tile-title>{{year}}</v-list-tile-title>
-          </v-list-tile>
-        </v-list>
-      </v-menu>
+     <year-picker @selected="loadData"></year-picker>
     </v-card-title>
     <v-card-text>
       <table class="subheading">
@@ -52,8 +38,6 @@
     name: 'DriveRecordYear',
     data() {
       return {
-        selectDate: null,
-        availableYears: [],
         day: {
           year: '2017',
           travelDistance: 2.9,
@@ -64,17 +48,9 @@
         }
       }
     },
-    mounted() {
-      for (let i = moment().year(); i >= 2011; i--) {
-        this.availableYears.push(i);
-      }
-    },
     methods: {
       loadData: function (year) {
         console.log('load data', year);
-        if (!year) {
-          return;
-        }
         this.$api.driveRecordYear(year)
             .then(dr => this.day = dr);
       }

@@ -3,31 +3,7 @@
     <v-card-title>
       <div class="headline">Day Summary for {{day.date | calendar}}</div>
       <v-spacer></v-spacer>
-      <v-menu
-          lazy
-          :close-on-content-click="false"
-          transition="scale-transition"
-          full-width
-          max-width="290px"
-          min-width="290px"
-      >
-        <v-btn dark color="teal" fab right slot="activator">
-          <v-icon dark>today</v-icon>
-        </v-btn>
-        <v-date-picker
-            v-model="selectDate"
-            firstDayOfWeek="1"
-            :allowed-dates="availableDays"
-            no-title
-            scrollable
-            actions>
-          <v-card-actions slot-scope="{ save, cancel }">
-            <v-spacer></v-spacer>
-            <v-btn flat color="primary" @click="cancel">Cancel</v-btn>
-            <v-btn flat color="primary" @click="save(); loadData();">OK</v-btn>
-          </v-card-actions>
-        </v-date-picker>
-      </v-menu>
+      <date-picker @selected="loadData" :days="availableDays"></date-picker>
     </v-card-title>
     <v-card-text>
       <table class="subheading">
@@ -58,7 +34,6 @@
 
 <script>
   import moment from 'moment';
-
   export default {
     name: 'DriveRecordDay',
     props: {
@@ -96,10 +71,13 @@
       }
     },
     methods: {
-      loadData: function () {
-        console.log('load data', this.selectDate);
-        this.$api.driveRecordDay(this.selectDate)
-            .then(dr => this.day = dr);
+      loadData(date) {
+        console.log('load data', date);
+        this.$api.driveRecordDay(date)
+            .then(dr => {
+              this.selectedDate = date;
+              this.day = dr;
+            });
       }
     }
   }

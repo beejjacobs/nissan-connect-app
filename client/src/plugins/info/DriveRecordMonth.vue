@@ -3,31 +3,7 @@
     <v-card-title>
       <div class="headline">Month Summary for {{day.date | monthYear}}</div>
       <v-spacer></v-spacer>
-      <v-menu
-          lazy
-          :close-on-content-click="false"
-          transition="scale-transition"
-          full-width
-          max-width="290px"
-          min-width="290px"
-      >
-        <v-btn dark color="teal" fab right slot="activator">
-          <v-icon dark>today</v-icon>
-        </v-btn>
-        <v-date-picker
-            v-model="selectDate"
-            firstDayOfWeek="1"
-            type="month"
-            no-title
-            scrollable
-            actions>
-          <v-card-actions slot-scope="{ save, cancel }">
-            <v-spacer></v-spacer>
-            <v-btn flat color="primary" @click="cancel">Cancel</v-btn>
-            <v-btn flat color="primary" @click="save(); loadData();">OK</v-btn>
-          </v-card-actions>
-        </v-date-picker>
-      </v-menu>
+      <month-picker @selected="loadData"></month-picker>
     </v-card-title>
     <v-card-text>
       <table class="subheading">
@@ -61,7 +37,6 @@
     name: 'DriveRecordMonth',
     data() {
       return {
-        selectDate: null,
         day: {
           date: '2017-11-12',
           travelDistance: 2.9,
@@ -73,10 +48,12 @@
       }
     },
     methods: {
-      loadData: function () {
-        console.log('load data', this.selectDate);
-        this.$api.driveRecordMonth(this.selectDate)
-            .then(dr => this.day = dr);
+      loadData(month) {
+        console.log('load data', month);
+        this.$api.driveRecordMonth(month)
+            .then(dr => {
+              this.day = dr;
+            });
       }
     }
   }

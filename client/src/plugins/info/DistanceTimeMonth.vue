@@ -3,31 +3,7 @@
     <v-card-title>
       <div class="headline">Distance & Time for {{selectedDate | monthYear}}</div>
       <v-spacer></v-spacer>
-      <v-menu
-          lazy
-          :close-on-content-click="false"
-          transition="scale-transition"
-          full-width
-          max-width="290px"
-          min-width="290px"
-      >
-        <v-btn dark color="teal" fab right slot="activator">
-          <v-icon dark>today</v-icon>
-        </v-btn>
-        <v-date-picker
-            v-model="selectedDate"
-            firstDayOfWeek="1"
-            type="month"
-            no-title
-            scrollable
-            actions>
-          <v-card-actions slot-scope="{ save, cancel }">
-            <v-spacer></v-spacer>
-            <v-btn flat color="primary" @click="cancel">Cancel</v-btn>
-            <v-btn flat color="primary" @click="save(); loadData();">OK</v-btn>
-          </v-card-actions>
-        </v-date-picker>
-      </v-menu>
+      <month-picker @selected="loadData"></month-picker>
     </v-card-title>
     <v-card-text>
       <div ref="chart"></div>
@@ -47,9 +23,10 @@
       }
     },
     methods: {
-      loadData() {
-        this.$api.distanceTimeMonth(this.selectedDate)
+      loadData(month) {
+        this.$api.distanceTimeMonth(month)
             .then(gdp => {
+              this.selectedDate = month;
               this.data = gdp;
               this.showChart();
             });
