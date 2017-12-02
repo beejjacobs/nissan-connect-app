@@ -38,12 +38,12 @@
     data() {
       return {
         day: {
-          date: '2017-11-12',
-          travelDistance: 2.9,
-          averageEconomy: 3.9,
-          energyUsage: 0.7,
-          travelTime: 0.1,
-          co2Saving: 1
+          date: '',
+          travelDistance: 0,
+          averageEconomy: 0,
+          energyUsage: 0,
+          travelTime: 0,
+          co2Saving: 0
         }
       }
     },

@@ -39,12 +39,12 @@
     data() {
       return {
         day: {
-          year: '2017',
-          travelDistance: 2.9,
-          averageEconomy: 3.9,
-          energyUsage: 0.7,
-          travelTime: 0.1,
-          co2Saving: 1
+          year: '',
+          travelDistance: 0,
+          averageEconomy: 0,
+          energyUsage: 0,
+          travelTime: 0,
+          co2Saving: 0
         }
       }
     },
