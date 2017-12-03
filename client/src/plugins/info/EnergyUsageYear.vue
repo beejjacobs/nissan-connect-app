@@ -6,14 +6,16 @@
       <year-picker @selected="loadData"></year-picker>
     </v-card-title>
     <v-card-text>
-      <div ref="chart"></div>
+      <bar-graph
+          :data="data"
+          title="Energy Usage"
+          :ordinal="true"
+      ></bar-graph>
     </v-card-text>
   </v-card>
 </template>
 
 <script>
-  import Chart from 'frappe-charts/dist/frappe-charts.min.esm';
-  import moment from 'moment';
   export default {
     name: 'energy-usage-year',
     data() {
@@ -28,28 +30,7 @@
             .then(gdp => {
               this.selectedDate = year;
               this.data = gdp;
-              this.showChart();
             });
-      },
-      showChart() {
-        let data = {
-          labels: this.data.map(point => moment().month(point.date - 1).format('MMM')),
-          datasets: [
-            {
-              title: "Energy Usage",
-              values: this.data.map(point => point.value)
-            }
-          ]
-        };
-        let chart = new Chart({
-          parent: this.$refs.chart,
-          data: data,
-          type: 'bar',
-          height: 250,
-          colors: ['#7cd6fd', 'violet', 'blue'],
-          format_tooltip_x: d => d,
-          format_tooltip_y: d => d
-        });
       }
     }
   }

@@ -17,12 +17,14 @@ import TripMonthSummary from './TripMonthSummary.vue';
 import DatePicker from './common/DatePicker.vue';
 import MonthPicker from './common/MonthPicker.vue';
 import YearPicker from './common/YearPicker.vue';
+import BarGraph from './common/BarGraph.vue';
 
 import moment from 'moment';
 
 export default {
   install: Vue => {
     const components = [
+      BarGraph,
       DatePicker,
       DistanceEconomyMonth,
       DistanceEconomyYear,
