@@ -37,14 +37,3 @@
     }
   }
 </script>
-
-<style scoped>
-  table thead td {
-    text-align: left;
-    font-weight: bold;
-  }
-  table td {
-    padding: 5px;
-    text-align: right;
-  }
-</style>
