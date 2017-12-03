@@ -35,6 +35,7 @@
 
 <script>
   export default {
+    name: 'battery-level',
     props: {
       level: [String, Number],
       height: [String, Number],
