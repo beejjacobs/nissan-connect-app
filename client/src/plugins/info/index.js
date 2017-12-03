@@ -60,6 +60,10 @@ export default {
       }
       return value.toFixed(2) + ' kWh';
     });
+    Vue.filter('whTokWh', function (value) {
+      value = isNaN(value) ? 0 : value;
+      return value / 1000;
+    });
     Vue.filter('travelTime', function (value) {
       value = isNaN(value) ? 0 : value;
       let duration = moment.duration({hours: value});
