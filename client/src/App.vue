@@ -26,13 +26,16 @@
           <v-list-group v-else-if="item.children" v-model="item.model" no-action>
             <v-list-tile slot="item" @click="">
               <v-list-tile-action>
-                <v-icon>{{ item.model ? item.icon : item['icon-alt'] }}</v-icon>
+                <v-icon>{{ item.icon }}</v-icon>
               </v-list-tile-action>
               <v-list-tile-content>
                 <v-list-tile-title>
                   {{ item.text }}
                 </v-list-tile-title>
               </v-list-tile-content>
+              <v-list-tile-action>
+                <v-icon>keyboard_arrow_down</v-icon>
+              </v-list-tile-action>
             </v-list-tile>
             <v-list-tile
                 v-for="(child, i) in item.children"
@@ -40,8 +43,8 @@
                 :to="child.link"
                 @click=""
             >
-              <v-list-tile-action v-if="child.icon">
-                <v-icon>{{ child.icon }}</v-icon>
+              <v-list-tile-action>
+                <v-icon v-if="child.icon">{{ child.icon }}</v-icon>
               </v-list-tile-action>
               <v-list-tile-content>
                 <v-list-tile-title>
@@ -77,7 +80,11 @@
     </v-toolbar>
     <v-content>
       <v-container fluid fill-height>
-        <router-view></router-view>
+        <v-layout row wrap>
+          <v-flex xs12>
+            <router-view></router-view>
+          </v-flex>
+        </v-layout>
       </v-container>
     </v-content>
   </v-app>
@@ -93,14 +100,38 @@
         { icon: 'ev_station', text: 'Battery', link: '/' },
         { icon: 'toys', text: 'AC', link: '/ac' },
         {
-          icon: 'keyboard_arrow_up',
-          'icon-alt': 'keyboard_arrow_down',
-          text: 'History',
+          icon: 'today',
+          text: 'By Date',
           model: true,
-          link: '/history',
           children: [
-            { icon: 'list', text: 'Summary', link: '/history' },
-            { icon: 'settings', text: 'Test', link: '/test' }
+            { text: 'Drive Analysis', link: '/drive-analysis' },
+            { text: 'Drive Analysis Week', link: '/drive-analysis/week' },
+            { text: 'Drive Record', link: '/drive-record/day' }
+          ]
+        },
+        {
+          icon: 'date_range',
+          text: 'By Month',
+          model: true,
+          children: [
+            { text: 'Distance & Economy', link: '/distance-economy/month' },
+            { text: 'Distance & Time', link: '/distance-time/month' },
+            { text: 'Drive Record', link: '/drive-record/month' },
+            { text: 'Energy Usage', link: '/energy-usage/month' },
+            { text: 'Trip Summary', link: '/trip/month/summary' },
+            { text: 'Trips', link: '/trip/month' }
+          ]
+        },
+        {
+          icon: 'event',
+          text: 'By Year',
+          model: true,
+          children: [
+            { text: 'Distance & Economy', link: '/distance-economy/year' },
+            { text: 'Distance & Time', link: '/distance-time/year' },
+            { text: 'Drive Record', link: '/drive-record/year' },
+            { text: 'Energy Usage', link: '/energy-usage/year' },
+            { text: 'Trips', link: '/trip/year' }
           ]
         }
       ]
