@@ -3,7 +3,7 @@
     <v-card-title>
       <div class="headline">Month Summary for {{day.date | monthYear}}</div>
       <v-spacer></v-spacer>
-      <month-picker @selected="loadData"></month-picker>
+      <month-picker v-if="picker" @selected="loadData"></month-picker>
     </v-card-title>
     <v-card-text>
       <table class="subheading">
@@ -35,6 +35,15 @@
 <script>
   export default {
     name: 'drive-record-month',
+    props: {
+      picker: {
+        type: Boolean,
+        default: true
+      },
+      month: {
+        type: String
+      }
+    },
     data() {
       return {
         day: {
@@ -44,6 +53,13 @@
           energyUsage: 0,
           travelTime: 0,
           co2Saving: 0
+        }
+      }
+    },
+    watch: {
+      month(newMonth) {
+        if (!this.picker && newMonth) {
+          this.loadData(newMonth);
         }
       }
     },

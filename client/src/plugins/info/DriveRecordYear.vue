@@ -3,7 +3,7 @@
     <v-card-title>
       <div class="headline">Year Summary for {{day.year}}</div>
       <v-spacer></v-spacer>
-     <year-picker @selected="loadData"></year-picker>
+     <year-picker v-if="picker" @selected="loadData"></year-picker>
     </v-card-title>
     <v-card-text>
       <table class="subheading">
@@ -36,6 +36,15 @@
   import moment from 'moment';
   export default {
     name: 'drive-record-year',
+    props: {
+      picker: {
+        type: Boolean,
+        default: true
+      },
+      year: {
+        type: String
+      }
+    },
     data() {
       return {
         day: {
@@ -45,6 +54,13 @@
           energyUsage: 0,
           travelTime: 0,
           co2Saving: 0
+        }
+      }
+    },
+    watch: {
+      year(newYear) {
+        if (!this.picker && newYear) {
+          this.loadData(newYear);
         }
       }
     },

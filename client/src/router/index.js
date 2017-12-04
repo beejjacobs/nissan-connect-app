@@ -2,9 +2,10 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Ac from '../components/Ac'
 import Battery from '../components/Battery'
-import History from '../components/History'
+import DayAll from '../components/DayAll'
+import MonthAll from '../components/MonthAll'
+import YearAll from '../components/YearAll'
 import Info from '../components/Info'
-import Test from '../components/Test'
 
 import DistanceEconomyMonth from '../plugins/info/DistanceEconomyMonth'
 import DistanceEconomyYear from '../plugins/info/DistanceEconomyYear'
@@ -42,22 +43,28 @@ export default new Router({
       meta: {title: 'AC'}
     },
     {
-      path: '/history',
-      name: 'History',
-      component: History,
-      meta: {title: 'History'}
-    },
-    {
       path: '/info',
       name: 'Info',
       component: Info,
       meta: {title: 'Info'}
     },
     {
-      path: '/test',
-      name: 'Test',
-      component: Test,
-      meta: {title: 'Test'}
+      path: '/all/day',
+      name: 'DayAll',
+      component: DayAll,
+      meta: {title: 'Day Information'}
+    },
+    {
+      path: '/all/month',
+      name: 'MonthAll',
+      component: MonthAll,
+      meta: {title: 'Month Information'}
+    },
+    {
+      path: '/all/year',
+      name: 'YearAll',
+      component: YearAll,
+      meta: {title: 'Year Information'}
     },
     {
       path: '/distance-economy/month',

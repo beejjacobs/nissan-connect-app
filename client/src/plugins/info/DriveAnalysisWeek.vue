@@ -3,7 +3,7 @@
     <v-card-title>
       <div class="headline">Week Summary for  {{startDate | calendar}}</div>
       <v-spacer></v-spacer>
-      <date-picker @selected="loadData"></date-picker>
+      <date-picker v-if="picker" @selected="loadData"></date-picker>
     </v-card-title>
     <v-card-text>
       <table class="subheading">
@@ -31,6 +31,15 @@
 <script>
   export default {
     name: 'drive-analysis-week',
+    props: {
+      picker: {
+        type: Boolean,
+        default: true
+      },
+      date: {
+        type: String
+      }
+    },
     data() {
       return {
         selectedDate: null,
@@ -47,6 +56,13 @@
           accessoryUsage: 0,
           accessoryUsageLevel: 1
         }]
+      }
+    },
+    watch: {
+      date(newDate) {
+        if (!this.picker && newDate) {
+          this.loadData(newDate);
+        }
       }
     },
     methods: {

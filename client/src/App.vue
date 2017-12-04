@@ -104,6 +104,7 @@
           text: 'By Date',
           model: true,
           children: [
+            { text: 'Everything', link: '/all/day' },
             { text: 'Drive Analysis', link: '/drive-analysis' },
             { text: 'Drive Analysis Week', link: '/drive-analysis/week' },
             { text: 'Drive Record', link: '/drive-record/day' }
@@ -114,6 +115,7 @@
           text: 'By Month',
           model: true,
           children: [
+            { text: 'Everything', link: '/all/month' },
             { text: 'Distance & Economy', link: '/distance-economy/month' },
             { text: 'Distance & Time', link: '/distance-time/month' },
             { text: 'Drive Record', link: '/drive-record/month' },
@@ -127,6 +129,7 @@
           text: 'By Year',
           model: true,
           children: [
+            { text: 'Everything', link: '/all/year' },
             { text: 'Distance & Economy', link: '/distance-economy/year' },
             { text: 'Distance & Time', link: '/distance-time/year' },
             { text: 'Drive Record', link: '/drive-record/year' },

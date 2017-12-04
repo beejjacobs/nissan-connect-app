@@ -3,7 +3,7 @@
     <v-card-title>
       <div class="headline">Energy Usage for {{selectedDate}}</div>
       <v-spacer></v-spacer>
-      <year-picker @selected="loadData"></year-picker>
+      <year-picker v-if="picker" @selected="loadData"></year-picker>
     </v-card-title>
     <v-card-text>
       <bar-graph
@@ -18,10 +18,26 @@
 <script>
   export default {
     name: 'energy-usage-year',
+    props: {
+      picker: {
+        type: Boolean,
+        default: true
+      },
+      year: {
+        type: String
+      }
+    },
     data() {
       return {
         selectedDate: null,
-        data: [],
+        data: []
+      }
+    },
+    watch: {
+      year(newYear) {
+        if (!this.picker && newYear) {
+          this.loadData(newYear);
+        }
       }
     },
     methods: {

@@ -3,7 +3,7 @@
     <v-card-title>
       <div class="headline">Day Summary for {{day.date | calendar}}</div>
       <v-spacer></v-spacer>
-      <date-picker @selected="loadData" :days="availableDays"></date-picker>
+      <date-picker v-if="picker" @selected="loadData" :days="availableDays"></date-picker>
     </v-card-title>
     <v-card-text>
       <table class="subheading">
@@ -40,6 +40,13 @@
       startDate: {
         type: String,
         default: '2017-09'
+      },
+      picker: {
+        type: Boolean,
+        default: true
+      },
+      date: {
+        type: String
       }
     },
     data() {
@@ -53,6 +60,13 @@
           energyUsage: 0,
           travelTime: 0,
           co2Saving: 0
+        }
+      }
+    },
+    watch: {
+      date(newDate) {
+        if (!this.picker && newDate) {
+          this.loadData(newDate);
         }
       }
     },

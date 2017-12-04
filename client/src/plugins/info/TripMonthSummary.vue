@@ -3,7 +3,7 @@
     <v-card-title>
       <div class="headline">Trip Summary for {{selectedDate | monthYear}}</div>
       <v-spacer></v-spacer>
-      <month-picker @selected="loadData"></month-picker>
+      <month-picker v-if="picker" @selected="loadData"></month-picker>
     </v-card-title>
     <v-card-text>
       <table class="subheading">
@@ -98,6 +98,15 @@
   import moment from 'moment';
   export default {
     name: 'trip-month-summary',
+    props: {
+      picker: {
+        type: Boolean,
+        default: true
+      },
+      month: {
+        type: String
+      }
+    },
     data() {
       return {
         selectedDate: null,
@@ -120,6 +129,11 @@
       }
     },
     watch: {
+      month(newMonth) {
+        if (!this.picker && newMonth) {
+          this.loadData(newMonth);
+        }
+      },
       summary() {
         this.cost = 15 / this.summary.total.averageEconomy;
         if (!this.summary.days) {
