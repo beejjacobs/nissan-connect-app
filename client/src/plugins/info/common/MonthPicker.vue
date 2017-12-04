@@ -41,3 +41,9 @@
     }
   }
 </script>
+
+<style scoped>
+  .menu {
+    z-index: 0;
+  }
+</style>
