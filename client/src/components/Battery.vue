@@ -32,6 +32,7 @@
       </table>
     </div>
     <div v-if="updateTime">Last updated: {{updateTime | calendar}}</div>
+    <div v-else-if="status.updateTime">Last updated: {{status.updateTime | calendar}}</div>
     <v-btn
         color="pink"
         dark
