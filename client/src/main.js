@@ -9,7 +9,13 @@ import NissanConnectApi from './plugins/nissan-connect-api';
 
 Vue.config.productionTip = false;
 
-Vue.use(Vuetify);
+Vue.use(Vuetify, {
+  theme: {
+    primary: '#b40124',
+    secondary: '#4c4c4c',
+    accent: '#246899'
+  }
+});
 Vue.use(NissanConnectApi, {hostPort: 'localhost:3001'});
 
 /* eslint-disable no-new */

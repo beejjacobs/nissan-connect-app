@@ -4,8 +4,9 @@
       transition="scale-transition"
       full-width
       min-width="100px"
+      offset-y="50px"
   >
-    <v-btn dark color="primary" fab right slot="activator">
+    <v-btn dark color="accent" fab right slot="activator">
       <v-icon dark>today</v-icon>
     </v-btn>
     <v-list>

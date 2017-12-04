@@ -7,7 +7,7 @@
       max-width="290px"
       min-width="290px"
   >
-    <v-btn dark color="primary" fab right slot="activator">
+    <v-btn dark color="accent" fab right slot="activator">
       <v-icon dark>today</v-icon>
     </v-btn>
     <v-date-picker
@@ -20,7 +20,7 @@
       <v-card-actions slot-scope="{ save, cancel }">
         <v-spacer></v-spacer>
         <v-btn flat color="error" @click="cancel">Cancel</v-btn>
-        <v-btn flat color="primary" @click="save(); updated();">OK</v-btn>
+        <v-btn dark color="accent" @click="save(); updated();">OK</v-btn>
       </v-card-actions>
     </v-date-picker>
   </v-menu>
