@@ -20,6 +20,7 @@ import MonthPicker from './common/MonthPicker.vue';
 import YearPicker from './common/YearPicker.vue';
 import BarGraph from './common/BarGraph.vue';
 import BatteryLevel from './common/BatteryLevel.vue';
+import BatteryCapacity from './common/BatteryCapacity.vue';
 
 import moment from 'moment';
 
@@ -27,6 +28,7 @@ export default {
   install: Vue => {
     const components = [
       BarGraph,
+      BatteryCapacity,
       BatteryLevel,
       CustomerInfo,
       DatePicker,

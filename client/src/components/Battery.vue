@@ -14,6 +14,14 @@
     </v-card-title>
     <v-card-text class="grid headline">
       <div class="battery">
+        <battery-capacity
+            :height="266"
+            :width="20"
+            stroke-width="2"
+            stroke-color="#DDDDDD"
+            fill-color="#246899"
+            :level="status.capacity"
+        ></battery-capacity>
         <battery-level
             :height="batteryHeight"
             :width="batteryWidth"
@@ -71,8 +79,10 @@
 
 <script>
   import moment from 'moment';
+  import BatteryCapacity from '../plugins/info/common/BatteryCapacity';
 
   export default {
+    components: {BatteryCapacity},
     name: 'Battery',
     data() {
       return {
