@@ -106,7 +106,7 @@
         {
           icon: 'today',
           text: 'By Date',
-          model: true,
+          model: false,
           children: [
             { text: 'Everything', link: '/all/day' },
             { text: 'Drive Analysis', link: '/drive-analysis' },
@@ -117,7 +117,7 @@
         {
           icon: 'date_range',
           text: 'By Month',
-          model: true,
+          model: false,
           children: [
             { text: 'Everything', link: '/all/month' },
             { text: 'Distance & Economy', link: '/distance-economy/month' },
@@ -131,7 +131,7 @@
         {
           icon: 'event',
           text: 'By Year',
-          model: true,
+          model: false,
           children: [
             { text: 'Everything', link: '/all/year' },
             { text: 'Distance & Economy', link: '/distance-economy/year' },
