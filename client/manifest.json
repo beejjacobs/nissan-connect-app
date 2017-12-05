@@ -1,0 +1,16 @@
+{
+  "manifest_version": 2,
+  "name": "Nissan Connect",
+  "version": "1.0.0",
+  "default_locale": "en",
+  "description": "Nissan Connect App",
+  "display": "standalone",
+  "background_color": "#b40124",
+  "icons": [
+    {
+      "src": "static/c.png",
+      "sizes": "128x128",
+      "type": "image/png"
+    }
+  ]
+}
