@@ -7,19 +7,19 @@
       <table class="subheading">
         <tr>
           <td>Nickname:</td>
-          <td>{{ info.nickname }}</td>
+          <td>{{ vehicleInfo.nickname }}</td>
         </tr>
         <tr>
           <td>VIN:</td>
-          <td>{{ info.vin }}</td>
+          <td>{{ vehicleInfo.vin }}</td>
         </tr>
         <tr>
           <td>charger20066:</td>
-          <td>{{ info.charger20066 }}</td>
+          <td>{{ vehicleInfo.charger20066 }}</td>
         </tr>
         <tr>
           <td>Telematics Enabled:</td>
-          <td>{{ info.telematicsEnabled }}</td>
+          <td>{{ vehicleInfo.telematicsEnabled }}</td>
         </tr>
       </table>
     </v-card-text>
@@ -29,6 +29,15 @@
 <script>
   export default {
     name: 'vehicle-info',
+    props: {
+      fetch: {
+        type: Boolean,
+        default: true
+      },
+      data: {
+        type: Object
+      }
+    },
     data() {
       return {
         info: {
@@ -39,9 +48,20 @@
         }
       }
     },
+    computed: {
+      vehicleInfo() {
+        if (this.fetch) {
+          return this.info;
+        } else {
+          return this.data;
+        }
+      }
+    },
     mounted () {
-      this.$api.vehicleInfo()
+      if (this.fetch) {
+        this.$api.vehicleInfo()
           .then(vi => this.info = vi);
+      }
     }
   }
 </script>

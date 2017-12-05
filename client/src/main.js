@@ -3,6 +3,7 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+import store from './store'
 import Vuetify from 'vuetify'
 import 'vuetify/dist/vuetify.min.css'
 import NissanConnectApi from './plugins/nissan-connect-api';
@@ -22,6 +23,7 @@ Vue.use(NissanConnectApi, {hostPort: 'localhost:3001'});
 new Vue({
   el: '#app',
   router,
+  store,
   template: '<App/>',
   components: { App }
 })

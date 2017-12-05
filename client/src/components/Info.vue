@@ -1,11 +1,19 @@
 <template>
   <v-layout row wrap>
-    <vehicle-info></vehicle-info>
+    <vehicle-info
+      :fetch="false"
+      :data="vehicleInfo"
+    ></vehicle-info>
   </v-layout>
 </template>
 
 <script>
   export default {
-    name: 'Info'
+    name: 'Info',
+    computed: {
+      vehicleInfo() {
+        return this.$store.state.vehicleInfo;
+      }
+    }
   }
 </script>

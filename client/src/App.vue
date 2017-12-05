@@ -98,7 +98,6 @@
   export default {
     name: 'app',
     data: () => ({
-      nickname: null,
       drawer: false,
       items: [
         { icon: 'info', text: 'Info', link: '/info' },
@@ -147,6 +146,9 @@
     computed: {
       title: function () {
         return this.$route.meta.title;
+      },
+      nickname() {
+        return this.$store.state.vehicleInfo.nickname;
       }
     },
     mounted() {
@@ -154,7 +156,7 @@
         this.drawer = false;
       });
       this.$api.vehicleInfo()
-        .then(vi => this.nickname = vi.nickname);
+        .then(vi => this.$store.commit('set', vi));
     }
   }
 </script>
