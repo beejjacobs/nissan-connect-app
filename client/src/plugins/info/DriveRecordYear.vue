@@ -1,7 +1,7 @@
 <template>
   <v-card>
     <v-card-title>
-      <div class="headline">Year Summary for {{day.year}}</div>
+      <div class="headline">Year Summary <span v-if="!hideDate">for {{day.year}}</span></div>
       <v-spacer></v-spacer>
      <year-picker v-if="picker" @selected="loadData"></year-picker>
     </v-card-title>
@@ -42,7 +42,11 @@
         default: true
       },
       year: {
-        type: String
+        type: Number
+      },
+      hideDate: {
+        type: Boolean,
+        default: false
       }
     },
     data() {

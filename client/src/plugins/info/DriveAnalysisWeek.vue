@@ -1,7 +1,7 @@
 <template>
   <v-card>
     <v-card-title>
-      <div class="headline">Week Summary for  {{startDate | calendar}}</div>
+      <div class="headline">Week Summary <span v-if="!hideDate">for {{startDate | calendar}}</span></div>
       <v-spacer></v-spacer>
       <date-picker v-if="picker" @selected="loadData"></date-picker>
     </v-card-title>
@@ -38,6 +38,10 @@
       },
       date: {
         type: String
+      },
+      hideDate: {
+        type: Boolean,
+        default: false
       }
     },
     data() {

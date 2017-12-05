@@ -5,16 +5,19 @@
   >
     <v-layout row wrap>
       <date-picker @selected="loadData"></date-picker>
+      <span class="display-3">{{date | calendar}}</span>
       <v-flex xs12>
         <drive-record-day
           :picker="false"
           :date="date"
+          hide-date
         ></drive-record-day>
       </v-flex>
       <v-flex xs12>
         <drive-analysis-week
           :picker="false"
           :date="date"
+          hide-date
         ></drive-analysis-week>
       </v-flex>
     </v-layout>
@@ -22,10 +25,7 @@
 </template>
 
 <script>
-  import DatePicker from "../plugins/info/common/DatePicker";
-
   export default {
-    components: {DatePicker},
     name: 'DayAll',
     data: () => ({
       date: null

@@ -1,7 +1,7 @@
 <template>
   <v-card>
     <v-card-title>
-      <div class="headline">Trips for {{selectedDate | monthYear}}</div>
+      <div class="headline">Trips <span v-if="!hideDate">for {{selectedDate | monthYear}}</span></div>
       <v-spacer></v-spacer>
       <month-picker v-if="picker" @selected="loadData"></month-picker>
     </v-card-title>
@@ -25,6 +25,10 @@
       },
       month: {
         type: String
+      },
+      hideDate: {
+        type: Boolean,
+        default: false
       }
     },
     data() {

@@ -1,7 +1,7 @@
 <template>
   <v-card>
     <v-card-title>
-      <div class="headline">Day Summary for {{day.date | calendar}}</div>
+      <div class="headline">Day Summary <span v-if="!hideDate">for {{day.date | calendar}}</span></div>
       <v-spacer></v-spacer>
       <date-picker v-if="picker" @selected="loadData" :days="availableDays"></date-picker>
     </v-card-title>
@@ -47,6 +47,10 @@
       },
       date: {
         type: String
+      },
+      hideDate: {
+        type: Boolean,
+        default: false
       }
     },
     data() {
