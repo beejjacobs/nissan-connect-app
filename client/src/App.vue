@@ -77,6 +77,10 @@
         <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
         {{ title }}
       </v-toolbar-title>
+      <v-spacer></v-spacer>
+      <v-toolbar-title class="white--text">
+        {{ nickname }}
+      </v-toolbar-title>
     </v-toolbar>
     <v-content>
       <v-container fluid fill-height>
@@ -94,6 +98,7 @@
   export default {
     name: 'app',
     data: () => ({
+      nickname: null,
       drawer: false,
       items: [
         { icon: 'info', text: 'Info', link: '/info' },
@@ -148,6 +153,8 @@
       this.$router.afterEach((to, from) => {
         this.drawer = false;
       });
+      this.$api.vehicleInfo()
+        .then(vi => this.nickname = vi.nickname);
     }
   }
 </script>
