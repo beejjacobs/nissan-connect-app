@@ -4,6 +4,7 @@
       :fetch="false"
       :data="vehicleInfo"
     ></vehicle-info>
+    <customer-info></customer-info>
   </v-layout>
 </template>
 

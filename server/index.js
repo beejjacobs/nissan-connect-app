@@ -177,6 +177,16 @@ app.get('/vehicle/info', function (req, res) {
       .catch(error => failure(res, error));
 });
 
+app.get('/customer-info', function (req, res) {
+  if (nissanConnect.customerInfo != null) {
+    success(res, nissanConnect.customerInfo);
+  } else {
+    nissanConnect.login()
+        .then(() => success(res, nissanConnect.customerInfo))
+        .catch(error => failure(res, error));
+  }
+});
+
 app.listen(config.port, function () {
   logger.log(`listening on port ${config.port}`);
 });

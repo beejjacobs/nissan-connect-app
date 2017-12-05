@@ -1,3 +1,4 @@
+import CustomerInfo from './CustomerInfo.vue';
 import DriveRecordDay from './DriveRecordDay.vue';
 import DriveRecordMonth from './DriveRecordMonth.vue';
 import DriveRecordYear from './DriveRecordYear.vue';
@@ -27,6 +28,7 @@ export default {
     const components = [
       BarGraph,
       BatteryLevel,
+      CustomerInfo,
       DatePicker,
       DistanceEconomyMonth,
       DistanceEconomyYear,

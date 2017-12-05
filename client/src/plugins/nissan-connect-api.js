@@ -13,7 +13,8 @@ import {
   DrivingRecordMonth,
   DrivingRecordYear,
   TripSummaryMonth,
-  VehicleInfo
+  VehicleInfo,
+  CustomerInfo
 } from '@beejjacobs/nissan-connect';
 
 export default {
@@ -228,6 +229,13 @@ export default {
       async vehicleInfo() {
         let res = await get('/vehicle/info');
         return new VehicleInfo({vehicleInfo: res});
+      },
+      /**
+       * @return {Promise.<CustomerInfo>}
+       */
+      async customerInfo() {
+        let res = await get('/customer-info');
+        return new CustomerInfo(res);
       }
     };
   }
