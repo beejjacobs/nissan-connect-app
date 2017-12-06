@@ -33,42 +33,80 @@
         ></battery-level>
         <div class="body-1">Updated: {{updateTime ? updateTime : status.updateTime | calendar}}</div>
       </div>
-      <div class="info-block range">
-        <v-btn color="accent" dark icon><v-icon>keyboard_tab</v-icon></v-btn>
-        {{ status.range | mToMiles }} miles
+      <div class="battery-info">
+        <v-list subheader>
+          <v-subheader>Range</v-subheader>
+          <v-list-tile avatar>
+            <v-list-tile-avatar>
+              <v-icon class="accent white--text">keyboard_tab</v-icon>
+            </v-list-tile-avatar>
+            <v-list-tile-content>
+              <v-list-tile-title class="headline">{{ status.range | mToMiles }} miles</v-list-tile-title>
+            </v-list-tile-content>
+          </v-list-tile>
+          <v-list-tile avatar>
+            <v-list-tile-avatar>
+              <v-icon class="accent white--text">toys</v-icon>
+            </v-list-tile-avatar>
+            <v-list-tile-content>
+              <v-list-tile-title class="headline">{{ status.rangeWithAc | mToMiles }} miles</v-list-tile-title>
+            </v-list-tile-content>
+          </v-list-tile>
+        </v-list>
+        <v-divider></v-divider>
+        <v-list subheader>
+          <v-subheader>Charge</v-subheader>
+          <v-list-tile avatar>
+            <v-list-tile-avatar>
+              <v-icon class="accent white--text">battery_unknown</v-icon>
+            </v-list-tile-avatar>
+            <v-list-tile-content>
+              <v-list-tile-title class="headline">{{status.chargeState | chargePercentage}}%</v-list-tile-title>
+            </v-list-tile-content>
+          </v-list-tile>
+          <v-list-tile avatar>
+            <v-list-tile-avatar>
+              <v-icon class="white--text" :class="{accent: pluggedIn, secondary: !pluggedIn}">power</v-icon>
+            </v-list-tile-avatar>
+            <v-list-tile-content>
+              <v-list-tile-title class="headline">{{pluggedIn ? 'Plugged In' : 'Unplugged'}}</v-list-tile-title>
+            </v-list-tile-content>
+          </v-list-tile>
+          <v-list-tile avatar>
+            <v-list-tile-avatar>
+              <v-icon class="accent white--text" :class="{accent: isCharging, secondary: !isCharging}">{{isCharging ? 'flash_on' : 'flash_off'}}</v-icon>
+            </v-list-tile-avatar>
+          </v-list-tile>
+        </v-list>
+        <v-divider></v-divider>
+        <v-list>
+          <v-list-tile avatar>
+            <v-list-tile-avatar>
+              <v-icon class="accent white--text">schedule</v-icon>
+            </v-list-tile-avatar>
+            <v-list-tile-content>
+              <v-list-tile-title class="headline">Time to Charge</v-list-tile-title>
+            </v-list-tile-content>
+          </v-list-tile>
+        </v-list>
+        <div class="time-left">
+          <table>
+            <tr v-if="status.hasTimeToFull">
+              <td>2.3kW</td>
+              <td>{{status.timeToFull | timeToCharge}}</td>
+            </tr>
+            <tr v-if="status.hasTimeToFull3kW">
+              <td>3.3kW</td>
+              <td>{{status.timeToFull3kW | timeToCharge}}</td>
+            </tr>
+            <tr v-if="status.hasTimeToFull6kW">
+              <td>6.6kW</td>
+              <td>{{status.timeToFull6kW | timeToCharge}}</td>
+            </tr>
+          </table>
+        </div>
       </div>
-      <div class="info-block range-ac">
-        <v-btn color="accent" dark icon><v-icon>toys</v-icon></v-btn>
-        {{ status.rangeWithAc | mToMiles }} miles
-      </div>
-      <div class="info-block charge">
-        <v-btn color="accent" dark icon><v-icon>battery_unknown</v-icon></v-btn>
-        {{status.chargeState | chargePercentage}}%
-      </div>
-      <div class="info-block charging">
-        <v-btn :color="isCharging ? 'accent' : 'secondary'" dark icon><v-icon>{{isCharging ? 'flash_on' : 'flash_off'}}</v-icon></v-btn>
-      </div>
-      <div class="info-block plugged-in">
-        <v-btn :color="pluggedIn ? 'accent' : 'secondary'" dark icon><v-icon>power</v-icon></v-btn>
-        {{pluggedIn ? 'Plugged In' : 'Unplugged'}}
-      </div>
-      <div class="time-left">
-        <v-btn color="accent" dark icon><v-icon>schedule</v-icon></v-btn>
-        <table>
-          <tr v-if="status.hasTimeToFull">
-            <td>2.3kW</td>
-            <td>{{status.timeToFull | timeToCharge}}</td>
-          </tr>
-          <tr v-if="status.hasTimeToFull3kW">
-            <td>3.3kW</td>
-            <td>{{status.timeToFull3kW | timeToCharge}}</td>
-          </tr>
-          <tr v-if="status.hasTimeToFull6kW">
-            <td>6.6kW</td>
-            <td>{{status.timeToFull6kW | timeToCharge}}</td>
-          </tr>
-        </table>
-      </div>
+
     </v-card-text>
     <v-card-actions>
       <v-spacer></v-spacer>
@@ -170,12 +208,16 @@
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: repeat(3, 1fr);
     grid-template-areas:
-        "bat rag ac"
-        "bat cha chg"
-        "bat plg tim";
+        "bat inf ac"
+        "bat inf tim"
+        "bat inf tim";
   }
   .battery {
     grid-area: bat;
+  }
+
+  .battery-info {
+    grid-area: inf;
   }
 
   .info-block {
