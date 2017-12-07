@@ -76,6 +76,9 @@
             <v-list-tile-avatar>
               <v-icon class="accent white--text" :class="{accent: isCharging, secondary: !isCharging}">{{isCharging ? 'flash_on' : 'flash_off'}}</v-icon>
             </v-list-tile-avatar>
+            <v-list-tile-content v-if="!isCharging && pluggedIn" >
+              <v-btn color="primary" @click="startCharge">Start Charging</v-btn>
+            </v-list-tile-content>
           </v-list-tile>
         </v-list>
         <v-divider></v-divider>
@@ -114,12 +117,7 @@
           </v-list-tile>
         </v-list>
       </div>
-
     </v-card-text>
-    <v-card-actions>
-      <v-spacer></v-spacer>
-      <v-btn color="primary" v-if="!isCharging && pluggedIn" @click="startCharge">Start Charging</v-btn>
-    </v-card-actions>
   </v-card>
 </template>
 
@@ -212,44 +210,27 @@
     line-height: initial;
   }
 
-  .grid {
-    display: grid;
-    height: 100%;
-    grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: repeat(3, 1fr);
-    grid-template-areas:
-        "bat inf ac"
-        "bat inf tim"
-        "bat inf tim";
-  }
   .battery {
-    grid-area: bat;
+    text-align: center;
   }
 
-  .battery-info {
-    grid-area: inf;
-  }
+  @media (min-width: 580px) {
+    .grid {
+      display: grid;
+      height: 100%;
+      grid-template-columns: repeat(2, 1fr);
+      grid-template-rows: repeat(3, 1fr);
+      grid-template-areas:
+        "bat inf"
+        "bat inf"
+        "bat inf";
+    }
+    .battery {
+      grid-area: bat;
+    }
 
-  .info-block {
-
-  }
-
-  .range {
-    grid-area: rag;
-  }
-  .range-ac {
-    grid-area: ac;
-  }
-  .charge {
-    grid-area: cha;
-  }
-  .charging {
-    grid-area: chg;
-  }
-  .plugged-in {
-    grid-area: plg;
-  }
-  .time-left {
-    grid-area: tim;
+    .battery-info {
+      grid-area: inf;
+    }
   }
 </style>
