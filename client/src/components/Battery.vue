@@ -68,8 +68,8 @@
             <v-list-tile-avatar>
               <v-icon class="white--text" :class="{accent: pluggedIn, secondary: !pluggedIn}">power</v-icon>
             </v-list-tile-avatar>
-            <v-list-tile-content>
-              <v-list-tile-title class="headline">{{pluggedIn ? 'Plugged In' : 'Unplugged'}}</v-list-tile-title>
+            <v-list-tile-content class="headline">
+              <v-list-tile-title>{{pluggedIn ? 'Plugged In' : 'Unplugged'}}</v-list-tile-title>
             </v-list-tile-content>
           </v-list-tile>
           <v-list-tile avatar>
@@ -79,7 +79,7 @@
           </v-list-tile>
         </v-list>
         <v-divider></v-divider>
-        <v-list>
+        <v-list v-if="anyTimeLeft">
           <v-list-tile avatar>
             <v-list-tile-avatar>
               <v-icon class="accent white--text">schedule</v-icon>
@@ -88,23 +88,31 @@
               <v-list-tile-title class="headline">Time to Charge</v-list-tile-title>
             </v-list-tile-content>
           </v-list-tile>
+          <v-list-tile avatar v-if="status.hasTimeToFull">
+            <v-list-tile-avatar>
+              2.3kW
+            </v-list-tile-avatar>
+            <v-list-tile-content>
+              <v-list-tile-title class="headline time">{{status.timeToFull | timeToCharge}}</v-list-tile-title>
+            </v-list-tile-content>
+          </v-list-tile>
+          <v-list-tile avatar v-if="status.hasTimeToFull3kW">
+            <v-list-tile-avatar>
+              3.3kW
+            </v-list-tile-avatar>
+            <v-list-tile-content>
+              <v-list-tile-title class="headline time">{{status.timeToFull3kW | timeToCharge}}</v-list-tile-title>
+            </v-list-tile-content>
+          </v-list-tile>
+          <v-list-tile avatar v-if="status.hasTimeToFull6kW">
+            <v-list-tile-avatar>
+              6.6kW
+            </v-list-tile-avatar>
+            <v-list-tile-content>
+              <v-list-tile-title class="headline time">{{status.timeToFull6kW | timeToCharge}}</v-list-tile-title>
+            </v-list-tile-content>
+          </v-list-tile>
         </v-list>
-        <div class="time-left">
-          <table>
-            <tr v-if="status.hasTimeToFull">
-              <td>2.3kW</td>
-              <td>{{status.timeToFull | timeToCharge}}</td>
-            </tr>
-            <tr v-if="status.hasTimeToFull3kW">
-              <td>3.3kW</td>
-              <td>{{status.timeToFull3kW | timeToCharge}}</td>
-            </tr>
-            <tr v-if="status.hasTimeToFull6kW">
-              <td>6.6kW</td>
-              <td>{{status.timeToFull6kW | timeToCharge}}</td>
-            </tr>
-          </table>
-        </div>
       </div>
 
     </v-card-text>
@@ -151,6 +159,9 @@
       isCharging() {
         return this.status.chargeStatus === 'NORMAL_CHARGING' ||
             this.status.chargeStatus === 'RAPIDLY_CHARGING';
+      },
+      anyTimeLeft() {
+        return this.status.hasTimeToFull || this.status.hasTimeToFull3kW || this.status.hasTimeToFull6kW;
       }
     },
     filters: {
@@ -163,10 +174,10 @@
         if (minutes < 10) {
           minutes = '0' + minutes;
         }
-        return duration.hours() + ':' + minutes;
+        return duration.hours() + ' hours ' + minutes + ' minutes';
       },
       mToMiles(value) {
-        return (value * 0.000621371).toFixed(2);
+        return (value * 0.000621371).toFixed(0);
       },
       calendar(value) {
         return moment(value).calendar();
@@ -196,12 +207,11 @@
 </script>
 
 <style scoped>
-  table td {
-    padding: 5px;
+  .list__tile__title {
+    height: auto;
+    line-height: initial;
   }
-  table td:last-child {
-    text-align: right;
-  }
+
   .grid {
     display: grid;
     height: 100%;
