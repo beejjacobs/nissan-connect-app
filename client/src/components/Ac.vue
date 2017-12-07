@@ -1,26 +1,70 @@
 <template>
-  <v-layout row wrap>
-    <v-flex v-if="acOn">
-      <span>
-      <v-icon x-large>toys</v-icon>
-        AC is on
-      </span>
-      <v-btn secondary @click="turnAcOff()">Turn Off</v-btn>
-    </v-flex>
-    <v-flex v-else="">
-      <span>
-      <v-icon x-large>toys</v-icon>
-        AC is off
-      </span>
-      <v-btn primary @click="turnAcOn()">Turn on</v-btn>
-    </v-flex>
-    <v-flex v-if="schedule">
-      Schedule is set for <span>{{ schedule | timeDate }}</span>
-      <v-btn @click="cancel()">Cancel</v-btn>
-    </v-flex>
-    <v-flex md12>
-      <span v-if="schedule">Update</span><span v-else>Set</span> AC Schedule:
-      <v-menu
+  <v-card>
+    <v-card-text class="grid headline">
+      <div class="status">
+        <v-list>
+          <v-list-tile avatar>
+            <v-list-tile-avatar>
+              <v-icon class="white--text" :class="{accent: acOn, secondary: !acOn}">toys</v-icon>
+            </v-list-tile-avatar>
+            <v-list-tile-content>
+              <v-list-tile-title class="headline">AC is {{ acOn ? 'on' : 'off' }}</v-list-tile-title>
+            </v-list-tile-content>
+          </v-list-tile>
+          <v-list-tile avatar>
+            <v-list-tile-avatar>
+            </v-list-tile-avatar>
+            <v-list-tile-content>
+              <v-btn
+                v-if="acOn"
+                dark
+                color="accent"
+                @click="turnAcOff()"
+                class="ml-0"
+              >
+                Turn AC Off
+              </v-btn>
+              <v-btn
+                v-else
+                color="primary"
+                @click="turnAcOn()"
+                class="ml-0"
+              >
+                Turn AC On
+              </v-btn>
+            </v-list-tile-content>
+          </v-list-tile>
+        </v-list>
+        <v-divider></v-divider>
+        <v-list subheader>
+          <v-subheader>Schedule</v-subheader>
+          <v-list-tile avatar>
+            <v-list-tile-avatar>
+              <v-icon class="accent white--text">schedule</v-icon>
+            </v-list-tile-avatar>
+            <v-list-tile-content>
+              <v-list-tile-title class="headline">{{ schedule ? 'Set for' : 'Not set' }}</v-list-tile-title>
+            </v-list-tile-content>
+          </v-list-tile>
+          <v-list-tile avatar v-if="schedule">
+            <v-list-tile-avatar>
+            </v-list-tile-avatar>
+            <v-list-tile-content>
+              <v-list-tile-title class="headline">{{ schedule | timeDate }}</v-list-tile-title>
+            </v-list-tile-content>
+          </v-list-tile>
+          <v-list-tile avatar v-if="schedule">
+            <v-list-tile-avatar>
+            </v-list-tile-avatar>
+            <v-list-tile-content>
+              <v-btn class="ml-0" v-if="schedule" color="secondary" @click="cancel()">Cancel Schedule</v-btn>
+            </v-list-tile-content>
+          </v-list-tile>
+        </v-list>
+      </div>
+      <div class="schedule">
+        {{schedule ? 'Update' : 'Set'}} AC Schedule:
+        <v-menu
           lazy
           :close-on-content-click="false"
           v-model="menu.date"
@@ -30,23 +74,23 @@
           :nudge-right="40"
           max-width="290px"
           min-width="290px"
-      >
-        <v-text-field
+        >
+          <v-text-field
             slot="activator"
             label="Select a date"
             v-model="timer.date"
             prepend-icon="event"
             readonly
-        ></v-text-field>
-        <v-date-picker v-model="timer.date" firstDayOfWeek="1" no-title scrollable actions>
-          <v-card-actions slot-scope="{ save, cancel }">
-            <v-spacer></v-spacer>
-            <v-btn flat color="primary" @click="cancel">Cancel</v-btn>
-            <v-btn flat color="primary" @click="save">OK</v-btn>
-          </v-card-actions>
-        </v-date-picker>
-      </v-menu>
-      <v-menu
+          ></v-text-field>
+          <v-date-picker v-model="timer.date" firstDayOfWeek="1" no-title scrollable actions>
+            <v-card-actions slot-scope="{ save, cancel }">
+              <v-spacer></v-spacer>
+              <v-btn flat color="primary" @click="cancel">Cancel</v-btn>
+              <v-btn flat color="primary" @click="save">OK</v-btn>
+            </v-card-actions>
+          </v-date-picker>
+        </v-menu>
+        <v-menu
           lazy
           :close-on-content-click="false"
           v-model="menu.time"
@@ -56,31 +100,31 @@
           :nudge-right="40"
           max-width="290px"
           min-width="290px"
-      >
-        <v-text-field
+        >
+          <v-text-field
             slot="activator"
             label="Select a time"
             v-model="timer.time"
             prepend-icon="timer"
             readonly
-        ></v-text-field>
-        <v-time-picker v-model="timer.time" format="24hr" scrollable actions>
-          <v-card-actions slot-scope="{ save, cancel }">
-            <v-spacer></v-spacer>
-            <v-btn flat color="primary" @click="cancel">Cancel</v-btn>
-            <v-btn flat color="primary" @click="save">OK</v-btn>
-          </v-card-actions>
-        </v-time-picker>
-      </v-menu>
-      <v-btn primary @click="set()">Set</v-btn>
-    </v-flex>
-    <v-flex md12>
-    </v-flex>
-  </v-layout>
+          ></v-text-field>
+          <v-time-picker v-model="timer.time" format="24hr" scrollable actions>
+            <v-card-actions slot-scope="{ save, cancel }">
+              <v-spacer></v-spacer>
+              <v-btn flat color="primary" @click="cancel">Cancel</v-btn>
+              <v-btn flat color="primary" @click="save">OK</v-btn>
+            </v-card-actions>
+          </v-time-picker>
+        </v-menu>
+        <v-btn color="primary" @click="set()">Set</v-btn>
+      </div>
+    </v-card-text>
+  </v-card>
 </template>
 
 <script>
   import moment from 'moment';
+
   export default {
     name: 'Ac',
     data() {
@@ -100,14 +144,14 @@
     methods: {
       cancel() {
         this.$api.acCancelSchedule()
-            .then(() => this.schedule = null);
+          .then(() => this.schedule = null);
       },
       set() {
         let dateTime = this.timer.date + ' ' + this.timer.time;
         this.$api.acSetSchedule(dateTime)
-            .then(ac => {
-              this.schedule = ac.isSet ? ac.executeTime : null;
-            });
+          .then(ac => {
+            this.schedule = ac.isSet ? ac.executeTime : null;
+          });
       },
       turnAcOn() {
         this.$api.acOn().then(() => this.acOn = true);
@@ -116,11 +160,20 @@
         this.$api.acOff().then(() => this.acOn = false);
       }
     },
+    watch: {
+      schedule() {
+        if (this.schedule != null) {
+          let schedule = moment(this.schedule);
+          this.timer.date = schedule.format('YYYY-MM-DD');
+          this.timer.time = schedule.format('HH:mm');
+        }
+      }
+    },
     mounted() {
       this.$api.acSchedule()
-          .then(ac => {
-            this.schedule = ac.isSet ? ac.executeTime : null;
-          });
+        .then(ac => {
+          this.schedule = ac.isSet ? ac.executeTime : null;
+        });
     },
     filters: {
       timeDate: function (value) {
@@ -129,3 +182,22 @@
     }
   }
 </script>
+
+<style scoped>
+  @media (min-width: 580px) {
+    .grid {
+      display: grid;
+      height: 100%;
+      grid-template-columns: repeat(2, 1fr);
+      grid-template-areas: "sta sch";
+    }
+
+    .status {
+      grid-area: sta;
+    }
+
+    .schedule {
+      grid-area: sch;
+    }
+  }
+</style>
