@@ -1,3 +1,4 @@
+const path = require('path');
 const fs = require('fs');
 const moment = require('moment');
 const Utils = require('./utils');
@@ -273,7 +274,7 @@ class NissanConnectStore {
   }
 
   get filePath() {
-    return NissanConnectStore.path + '/' + this.filename;
+    return path.join(__dirname, '..', NissanConnectStore.path, this.filename)
   }
 
   async save() {
@@ -364,6 +365,6 @@ class NissanConnectStore {
 }
 
 NissanConnectStore.basename = 'nissan-connect-store';
-NissanConnectStore.path = './store';
+NissanConnectStore.path = 'store';
 
 module.exports = NissanConnectStore;
