@@ -26,6 +26,21 @@ class NissanConnectStore {
   }
 
   /**
+   * @returns {number}
+   */
+  getElectricityCost() {
+    return this.store.electricityCost;
+  }
+
+  /**
+   * @param {number} cost
+   * @returns {Promise<number>}
+   */
+  saveElectricityCost(cost) {
+    return this.saveData(this.store, 'electricityCost', cost);
+  }
+
+  /**
    * @param {string|moment.Moment} date
    * @return {Promise.<DriveAnalysisWeekSummary>}
    */
@@ -272,7 +287,9 @@ class NissanConnectStore {
     }
     this.store = sortObject(this.store);
     for (let key in this.store) {
-      this.store[key] = sortObject(this.store[key]);
+      if (typeof this.store[key] === 'object') {
+        this.store[key] = sortObject(this.store[key]);
+      }
     }
   }
 
@@ -312,11 +329,15 @@ class NissanConnectStore {
         store[name] = {};
       }
     });
+    if (!store.hasOwnProperty('electricityCost')) {
+      store['electricityCost'] = 15; //default value
+    }
     return store;
   }
 
   /**
    * @typedef {object} Store
+   * @property {number} electricityCost
    * @property {object} drivingAnalysisWeek
    * @property {object} drivingRecord
    * @property {object} drivingRecordCalendar

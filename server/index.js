@@ -23,14 +23,12 @@ app.all('/*', function(req, res, next) {
 });
 
 function success(res, data) {
-  res.status(200);
-  res.send(data);
+  res.status(200).send(data);
 }
 
 function failure(res, error) {
   console.log(error);
-  res.status(500);
-  res.send(error);
+  res.status(500).send(error);
 }
 
 app.get('/battery/status', function (req, res) {
@@ -185,6 +183,21 @@ app.get('/customer-info', function (req, res) {
         .then(() => success(res, nissanConnect.customerInfo))
         .catch(error => failure(res, error));
   }
+});
+
+app.get('/electricity-cost', function (req, res) {
+  success(res, store.getElectricityCost().toString());
+});
+
+app.get('/electricity-cost/:cost', function (req, res) {
+  let number = parseFloat(req.params.cost);
+  if (isNaN(number) || !isFinite(number)) {
+    failure(res, 'invalid cost ' + req.params.cost);
+    return;
+  }
+  store.saveElectricityCost(number)
+      .then(data => success(res, data.toString()))
+      .catch(error => failure(res, error));
 });
 
 app.listen(config.port, function () {
