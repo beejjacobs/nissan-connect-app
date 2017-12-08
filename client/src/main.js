@@ -17,7 +17,7 @@ Vue.use(Vuetify, {
     accent: '#246899'
   }
 });
-Vue.use(NissanConnectApi, {hostPort: 'localhost:3001'});
+Vue.use(NissanConnectApi, {hostPort: '192.168.0.2:3001'});
 
 /* eslint-disable no-new */
 new Vue({
