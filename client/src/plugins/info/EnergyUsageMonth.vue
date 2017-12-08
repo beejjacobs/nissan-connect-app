@@ -3,7 +3,7 @@
     <v-card-title>
       <div class="headline">Energy Usage <span v-if="!hideDate">for {{selectedDate | monthYear}}</span></div>
       <v-spacer></v-spacer>
-      <<month-picker v-if="picker" @selected="loadData"></month-picker>
+      <month-picker v-if="picker" @selected="loadData"></month-picker>
     </v-card-title>
     <v-card-text>
       <bar-graph
