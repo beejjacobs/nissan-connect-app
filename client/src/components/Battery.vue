@@ -61,7 +61,7 @@
               <v-icon class="accent white--text">battery_unknown</v-icon>
             </v-list-tile-avatar>
             <v-list-tile-content>
-              <v-list-tile-title class="headline">{{status.chargeState | chargePercentage}}%</v-list-tile-title>
+              <v-list-tile-title class="headline">{{status.chargeState | chargePercentage}}</v-list-tile-title>
             </v-list-tile-content>
           </v-list-tile>
           <v-list-tile avatar>
@@ -181,7 +181,10 @@
         return moment(value).calendar();
       },
       chargePercentage(value) {
-        return (value / 0.12).toFixed(0);
+        if (!value) {
+          return '';
+        }
+        return ((value - 1) / 0.12).toFixed(0) + '-' + (value / 0.12).toFixed(0) + '%';
       }
     },
     mounted() {
