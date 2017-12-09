@@ -21,6 +21,7 @@ import YearPicker from './common/YearPicker.vue';
 import BarGraph from './common/BarGraph.vue';
 import BatteryLevel from './common/BatteryLevel.vue';
 import BatteryCapacity from './common/BatteryCapacity.vue';
+import TimedLoader from './common/TimedLoader.vue';
 
 import moment from 'moment';
 
@@ -44,6 +45,7 @@ export default {
       EnergyUsageMonth,
       EnergyUsageYear,
       MonthPicker,
+      TimedLoader,
       TripMonth,
       TripMonthSummary,
       TripYear,

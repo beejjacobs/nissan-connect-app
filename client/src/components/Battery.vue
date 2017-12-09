@@ -8,7 +8,15 @@
           fab
           right
           @click="refresh()"
+          :loading="loading"
       >
+        <timed-loader
+            slot="loader"
+            :time="loadingTime"
+            :loading="loading"
+            :steps="30"
+            color="white"
+        ></timed-loader>
         <v-icon>refresh</v-icon>
       </v-btn>
     </v-card-title>
@@ -77,7 +85,7 @@
               <v-icon class="accent white--text" :class="{accent: isCharging, secondary: !isCharging}">{{isCharging ? 'flash_on' : 'flash_off'}}</v-icon>
             </v-list-tile-avatar>
             <v-list-tile-content v-if="!isCharging && pluggedIn" >
-              <v-btn color="primary" @click="startCharge">Start Charging</v-btn>
+              <v-btn color="primary" @click="startCharge" :loading="chargeLoading">Start Charging</v-btn>
             </v-list-tile-content>
           </v-list-tile>
         </v-list>
@@ -124,9 +132,9 @@
 <script>
   import moment from 'moment';
   import BatteryCapacity from '../plugins/info/common/BatteryCapacity';
+  import TimedLoader from '../plugins/info/common/TimedLoader';
 
   export default {
-    components: {BatteryCapacity},
     name: 'Battery',
     data() {
       return {
@@ -146,7 +154,10 @@
         },
         batteryWidth: 150,
         batteryHeight: 300,
-        updateTime: ''
+        updateTime: '',
+        loading: true,
+        loadingTime: 0,
+        chargeLoading: false
       }
     },
     computed: {
@@ -198,18 +209,28 @@
     },
     mounted() {
       this.$api.batteryLastStatus()
-          .then(bs => this.status = bs);
+          .then(bs => {
+            this.status = bs;
+            this.loading = false;
+            this.loadingTime = 30;
+          });
     },
     methods: {
       startCharge() {
+        this.chargeLoading = true;
         this.$api.batteryCharge()
-            .then(() => this.charging = true);
+            .then(() => {
+              this.charging = true;
+              this.chargeLoading = false;
+            });
       },
       refresh() {
+        this.loading = true;
         this.$api.batteryStatus()
             .then(bs => {
               this.updateTime = bs.updateTime;
               this.status = bs.batteryStatus;
+              this.loading = false;
             });
       }
     }
