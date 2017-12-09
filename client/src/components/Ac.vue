@@ -21,6 +21,7 @@
                 color="accent"
                 @click="turnAcOff()"
                 class="ml-0"
+                :loading="loading.off"
               >
                 Turn AC Off
               </v-btn>
@@ -29,6 +30,7 @@
                 color="primary"
                 @click="turnAcOn()"
                 class="ml-0"
+                :loading="loading.on"
               >
                 Turn AC On
               </v-btn>
@@ -40,10 +42,15 @@
           <v-subheader>Schedule</v-subheader>
           <v-list-tile avatar>
             <v-list-tile-avatar>
-              <v-icon class="accent white--text">schedule</v-icon>
+              <v-progress-circular
+                  indeterminate
+                  color="accent"
+                  v-if="loading.schedule"
+              ></v-progress-circular>
+              <v-icon v-else class="accent white--text">schedule</v-icon>
             </v-list-tile-avatar>
             <v-list-tile-content>
-              <v-list-tile-title class="headline">{{ schedule ? 'Set for' : 'Not set' }}</v-list-tile-title>
+              <v-list-tile-title v-if="!loading.schedule" class="headline">{{ schedule ? 'Set for' : 'Not set' }}</v-list-tile-title>
             </v-list-tile-content>
           </v-list-tile>
           <v-list-tile avatar v-if="schedule">
@@ -57,7 +64,13 @@
             <v-list-tile-avatar>
             </v-list-tile-avatar>
             <v-list-tile-content>
-              <v-btn class="ml-0" v-if="schedule" color="secondary" @click="cancel()">Cancel Schedule</v-btn>
+              <v-btn
+                  class="ml-0"
+                  v-if="schedule"
+                  color="secondary"
+                  @click="cancel()"
+                  :loading="loading.cancel"
+              >Cancel Schedule</v-btn>
             </v-list-tile-content>
           </v-list-tile>
         </v-list>
@@ -116,7 +129,11 @@
             </v-card-actions>
           </v-time-picker>
         </v-menu>
-        <v-btn color="primary" @click="set()">Set</v-btn>
+        <v-btn
+            color="primary"
+            @click="set()"
+            :loading="loading.set"
+        >Set</v-btn>
       </div>
     </v-card-text>
   </v-card>
@@ -138,26 +155,49 @@
         menu: {
           date: false,
           time: false
+        },
+        loading: {
+          on: false,
+          off: false,
+          set: false,
+          cancel: false,
+          schedule: true
         }
       }
     },
     methods: {
       cancel() {
+        this.loading.cancel = true;
         this.$api.acCancelSchedule()
-          .then(() => this.schedule = null);
+          .then(() => {
+            this.schedule = null;
+            this.loading.cancel = false;
+          });
       },
       set() {
+        this.loading.set = true;
         let dateTime = this.timer.date + ' ' + this.timer.time;
         this.$api.acSetSchedule(dateTime)
           .then(ac => {
             this.schedule = ac.isSet ? ac.executeTime : null;
+            this.loading.set = false;
           });
       },
       turnAcOn() {
-        this.$api.acOn().then(() => this.acOn = true);
+        this.loading.on = true;
+        this.$api.acOn()
+            .then(() => {
+              this.acOn = true;
+              this.loading.on = false;
+            });
       },
       turnAcOff() {
-        this.$api.acOff().then(() => this.acOn = false);
+        this.loading.off = true;
+        this.$api.acOff()
+            .then(() => {
+              this.acOn = false;
+              this.loading.off = false;
+            });
       }
     },
     watch: {
@@ -173,6 +213,7 @@
       this.$api.acSchedule()
         .then(ac => {
           this.schedule = ac.isSet ? ac.executeTime : null;
+          this.loading.schedule = false;
         });
     },
     filters: {
