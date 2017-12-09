@@ -82,7 +82,7 @@
           </v-list-tile>
           <v-list-tile avatar>
             <v-list-tile-avatar>
-              <v-icon class="accent white--text" :class="{accent: isCharging, secondary: !isCharging}">{{isCharging ? 'flash_on' : 'flash_off'}}</v-icon>
+              <v-icon class="white--text" :class="{accent: isCharging, secondary: !isCharging}">{{isCharging ? 'flash_on' : 'flash_off'}}</v-icon>
             </v-list-tile-avatar>
             <v-list-tile-content v-if="!isCharging && pluggedIn" >
               <v-btn color="primary" @click="startCharge" :loading="chargeLoading">Start Charging</v-btn>
