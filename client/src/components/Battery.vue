@@ -31,7 +31,7 @@
             :charging="isCharging"
             :level="status.chargeState"
         ></battery-level>
-        <div class="body-1">Updated: {{updateTime ? updateTime : status.updateTime | calendar}}</div>
+        <div class="body-1">Updated: {{ lastUpdateTime | calendar}}</div>
       </div>
       <div class="battery-info">
         <v-list subheader>
@@ -160,6 +160,15 @@
       },
       anyTimeLeft() {
         return this.status.hasTimeToFull || this.status.hasTimeToFull3kW || this.status.hasTimeToFull6kW;
+      },
+      lastUpdateTime() {
+        if (this.updateTime) {
+          return this.updateTime;
+        }
+        if (this.status && this.status.updateTime) {
+          return this.status.updateTime.replace(/\//g, '-');
+        }
+        return '';
       }
     },
     filters: {
