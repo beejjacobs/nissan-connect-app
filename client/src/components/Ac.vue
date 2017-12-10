@@ -186,25 +186,37 @@
       cancel() {
         this.loading.cancel = true;
         this.$api.acCancelSchedule()
-          .then(() => {
-            this.schedule = null;
-            this.loading.cancel = false;
-          });
+            .then(() => {
+              this.schedule = null;
+              this.loading.cancel = false;
+            })
+            .catch(error => {
+              console.error('acCancelSchedule', error);
+              this.loading.cancel = false;
+            });
       },
       set() {
         this.loading.set = true;
         let dateTime = this.timer.date + ' ' + this.timer.time;
         this.$api.acSetSchedule(dateTime)
-          .then(ac => {
-            this.schedule = ac.isSet ? ac.executeTime : null;
-            this.loading.set = false;
-          });
+            .then(ac => {
+              this.schedule = ac.isSet ? ac.executeTime : null;
+              this.loading.set = false;
+            })
+            .catch(error => {
+              console.error('acSetSchedule', error);
+              this.loading.set = false;
+            });
       },
       turnAcOn() {
         this.loading.on = true;
         this.$api.acOn()
             .then(ac => {
               this.acOn = ac.success;
+              this.loading.on = false;
+            })
+            .catch(error => {
+              console.error('turnAcOn', error);
               this.loading.on = false;
             });
       },
@@ -213,6 +225,10 @@
         this.$api.acOff()
             .then(ac => {
               this.acOn = !ac.success;
+              this.loading.off = false;
+            })
+            .catch(error => {
+              console.error('turnAcOff', error);
               this.loading.off = false;
             });
       }
@@ -228,13 +244,21 @@
     },
     mounted() {
       this.$api.acSchedule()
-        .then(ac => {
-          this.schedule = ac.isSet ? ac.executeTime : null;
-          this.loading.schedule = false;
-        });
+          .then(ac => {
+            this.schedule = ac.isSet ? ac.executeTime : null;
+            this.loading.schedule = false;
+          })
+          .catch(error => {
+            console.error('acSchedule', error);
+            this.loading.schedule = false;
+          });
       this.$api.acRecord()
           .then(record => {
             this.record = record;
+            this.loading.record = false;
+          })
+          .catch(error => {
+            console.error('acRecord', error);
             this.loading.record = false;
           });
     },

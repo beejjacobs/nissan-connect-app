@@ -213,6 +213,10 @@
             this.status = bs;
             this.loading = false;
             this.loadingTime = 30;
+          })
+          .catch(error => {
+            console.error('batteryLastStatus', error);
+            this.loading = false;
           });
     },
     methods: {
@@ -222,6 +226,10 @@
             .then(() => {
               this.charging = true;
               this.chargeLoading = false;
+            })
+            .catch(error => {
+              console.error('batteryCharge', error);
+              this.chargeLoading = false;
             });
       },
       refresh() {
@@ -230,6 +238,10 @@
             .then(bs => {
               this.updateTime = bs.updateTime;
               this.status = bs.batteryStatus;
+              this.loading = false;
+            })
+            .catch(error => {
+              console.error('batteryStatus', error);
               this.loading = false;
             });
       }
