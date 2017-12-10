@@ -5,18 +5,23 @@
         <v-list>
           <v-list-tile avatar>
             <v-list-tile-avatar>
-              <v-icon class="white--text" :class="{accent: acOn, secondary: !acOn}">toys</v-icon>
+              <v-progress-circular
+                  indeterminate
+                  color="accent"
+                  v-if="loading.record"
+              ></v-progress-circular>
+              <v-icon v-else class="white--text" :class="{accent: acIsOn, secondary: !acIsOn}">toys</v-icon>
             </v-list-tile-avatar>
-            <v-list-tile-content>
-              <v-list-tile-title class="headline">AC is {{ acOn ? 'on' : 'off' }}</v-list-tile-title>
+            <v-list-tile-content v-if="!loading.record">
+              <v-list-tile-title class="headline">AC is {{ acIsOn ? 'on' : 'off' }}</v-list-tile-title>
             </v-list-tile-content>
           </v-list-tile>
-          <v-list-tile avatar>
+          <v-list-tile v-if="!loading.record" avatar>
             <v-list-tile-avatar>
             </v-list-tile-avatar>
             <v-list-tile-content>
               <v-btn
-                v-if="acOn"
+                v-if="acIsOn"
                 dark
                 color="accent"
                 @click="turnAcOff()"
@@ -146,7 +151,7 @@
     name: 'Ac',
     data() {
       return {
-        acOn: false,
+        acOn: null,
         schedule: null,
         timer: {
           date: null,
@@ -161,7 +166,19 @@
           off: false,
           set: false,
           cancel: false,
-          schedule: true
+          schedule: true,
+          record: true
+        },
+        record: null
+      }
+    },
+    computed: {
+      acIsOn() {
+        if (this.acOn != null) {
+          return this.acOn;
+        }
+        if (this.record != null) {
+          return this.record.isOn;
         }
       }
     },
@@ -215,6 +232,11 @@
           this.schedule = ac.isSet ? ac.executeTime : null;
           this.loading.schedule = false;
         });
+      this.$api.acRecord()
+          .then(record => {
+            this.record = record;
+            this.loading.record = false;
+          });
     },
     filters: {
       timeDate: function (value) {

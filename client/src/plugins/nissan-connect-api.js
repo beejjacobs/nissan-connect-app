@@ -3,6 +3,7 @@ import Info from './info/index';
 import {
   AcOff,
   AcOn,
+  AcRecord,
   AcSchedule,
   BatteryStatusLast,
   BatteryStatusResponse,
@@ -96,6 +97,13 @@ export default {
        */
       async acCancelSchedule() {
         return await get('/ac/schedule/cancel');
+      },
+      /**
+       * @return {Promise.<AcRecord>}
+       */
+      async acRecord() {
+        let res = await get('/ac/record');
+        return new AcRecord(res);
       },
       /**
        * @return {Promise.<DriveAnalysis>}
