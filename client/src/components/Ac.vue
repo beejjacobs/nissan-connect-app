@@ -186,16 +186,16 @@
       turnAcOn() {
         this.loading.on = true;
         this.$api.acOn()
-            .then(() => {
-              this.acOn = true;
+            .then(ac => {
+              this.acOn = ac.success;
               this.loading.on = false;
             });
       },
       turnAcOff() {
         this.loading.off = true;
         this.$api.acOff()
-            .then(() => {
-              this.acOn = false;
+            .then(ac => {
+              this.acOn = !ac.success;
               this.loading.off = false;
             });
       }
