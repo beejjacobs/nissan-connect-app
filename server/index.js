@@ -58,6 +58,11 @@ app.get('/ac/off', function (req, res) {
       .then(data => success(res, data))
       .catch(error => failure(res, error));
 });
+app.get('/ac/record', function (req, res) {
+  nissanConnect.getAcRecord()
+      .then(data => success(res, data))
+      .catch(error => failure(res, error));
+});
 app.get('/ac/schedule', function (req, res) {
   nissanConnect.getAcSchedule()
       .then(data => success(res, data))
