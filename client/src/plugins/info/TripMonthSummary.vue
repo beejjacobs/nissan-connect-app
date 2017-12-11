@@ -69,7 +69,7 @@
       <table class="subheading">
         <thead>
         <tr>
-          <td>Date</td>
+          <td>Start</td>
           <td>Number</td>
           <td>Distance</td>
           <td>Economy</td>
@@ -79,8 +79,11 @@
         </tr>
         </thead>
         <template v-for="day in summary.days">
+          <tr>
+            <td colspan="7" class="date subheading">{{day.date | ddMMYYYY}}</td>
+          </tr>
           <tr v-for="trip in day.trips">
-            <td>{{ trip.number === 1 ? day.date : ''  | ddMMYYYY}}</td>
+            <td>{{trip.dateTime | time}}</td>
             <td>{{trip.number}}</td>
             <td>{{trip.travelDistance | travelDistance}}</td>
             <td>{{trip.averageEconomy}} miles/kWh ({{trip.averageEconomy | economyWhPerMile}} Wh/mile)</td>
@@ -121,6 +124,11 @@
         economic: null,
         mostTrips: null,
         cost: 0
+      }
+    },
+    filters: {
+      time(value) {
+        return moment(value).format("HH:mm");
       }
     },
     methods: {
@@ -170,6 +178,9 @@
 </script>
 
 <style scoped>
+  table {
+    border-collapse: collapse;
+  }
   table thead td {
     text-align: left;
     font-weight: bold;
@@ -177,5 +188,13 @@
   table td {
     padding: 5px;
     text-align: right;
+  }
+
+  table td:first-child {
+    text-align: left;
+  }
+
+  .date {
+    border-top: lightgrey 1px solid;
   }
 </style>
