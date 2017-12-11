@@ -52,7 +52,8 @@
             .then(gdp => {
               this.selectedDate = month;
               this.data = gdp;
-            });
+            })
+            .catch(error => console.error('distanceTimeMonth', error));
       }
     }
   }

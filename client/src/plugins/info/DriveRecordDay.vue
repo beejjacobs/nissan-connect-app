@@ -85,7 +85,8 @@
                 this.availableDays = [];
               }
               ad.availableDates.forEach(date => this.availableDays.push(date.format('YYYY-MM-DD')));
-            });
+            })
+            .catch(error => console.error('driveRecordAvailableDays', error));
       }
     },
     methods: {
@@ -95,7 +96,8 @@
             .then(dr => {
               this.selectedDate = date;
               this.day = dr;
-            });
+            })
+            .catch(error => console.error('driveRecordDay', error));
       }
     }
   }

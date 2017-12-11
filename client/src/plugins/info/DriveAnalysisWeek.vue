@@ -76,7 +76,8 @@
               this.selectedDate = date;
               this.startDate = daw.startDate;
               this.summaries = daw.days;
-            });
+            })
+            .catch(error => console.error('driveAnalysisWeek', error));
       }
     }
   }

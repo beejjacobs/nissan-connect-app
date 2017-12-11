@@ -52,7 +52,9 @@
             .then(gdp => {
               this.selectedDate = year;
               this.data = gdp;
-            });
+            })
+            .catch(error => console.error('distanceTimeYear', error));
+
       }
     }
   }

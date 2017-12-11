@@ -43,8 +43,9 @@
       }
     },
     mounted () {
-        this.$api.customerInfo()
-          .then(ci => this.info = ci);
+      this.$api.customerInfo()
+          .then(ci => this.info = ci)
+          .catch(error => console.error('customerInfo', error));
     }
   }
 </script>

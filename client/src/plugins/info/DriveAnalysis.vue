@@ -51,7 +51,8 @@
     },
     mounted () {
       this.$api.driveAnalysisToday()
-          .then(da => this.summary = da.day);
+          .then(da => this.summary = da.day)
+          .catch(error => console.error('driveAnalysisToday', error));
     }
   }
 </script>

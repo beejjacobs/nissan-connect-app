@@ -137,7 +137,8 @@
             .then(tsm => {
               this.selectedDate = month;
               this.summary = tsm
-            });
+            })
+            .catch(error => console.error('tripMonthSummary', error));
       }
     },
     watch: {

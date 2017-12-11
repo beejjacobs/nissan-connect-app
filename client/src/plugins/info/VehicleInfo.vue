@@ -60,7 +60,8 @@
     mounted () {
       if (this.fetch) {
         this.$api.vehicleInfo()
-          .then(vi => this.info = vi);
+            .then(vi => this.info = vi)
+            .catch(error => console.error('vehicleInfo', error));
       }
     }
   }

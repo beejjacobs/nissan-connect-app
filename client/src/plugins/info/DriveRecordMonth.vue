@@ -73,7 +73,8 @@
         this.$api.driveRecordMonth(month)
             .then(dr => {
               this.day = dr;
-            });
+            })
+            .catch(error => console.error('driveRecordMonth', error));
       }
     }
   }
