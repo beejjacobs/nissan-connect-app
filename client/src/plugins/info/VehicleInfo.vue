@@ -4,7 +4,8 @@
       <div class="headline">Vehicle Info</div>
     </v-card-title>
     <v-card-text>
-      <table class="subheading">
+      <v-progress-circular v-if="loading" indeterminate></v-progress-circular>
+      <table class="subheading" v-else>
         <tr>
           <td>Nickname:</td>
           <td>{{ vehicleInfo.nickname }}</td>
@@ -45,7 +46,8 @@
           nickname: '',
           charger20066: false,
           telematicsEnabled: false
-        }
+        },
+        loading: false
       }
     },
     computed: {
@@ -59,9 +61,16 @@
     },
     mounted () {
       if (this.fetch) {
+        this.loading = true;
         this.$api.vehicleInfo()
-            .then(vi => this.info = vi)
-            .catch(error => console.error('vehicleInfo', error));
+            .then(vi => {
+              this.info = vi;
+              this.loading = false;
+            })
+            .catch(error => {
+              console.error('vehicleInfo', error);
+              this.loading = false;
+            });
       }
     }
   }

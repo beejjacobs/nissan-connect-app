@@ -4,8 +4,9 @@
       transition="scale-transition"
       full-width
       min-width="100px"
+      :disabled="loading"
   >
-    <v-btn dark color="accent" fab right slot="activator">
+    <v-btn dark color="accent" fab right slot="activator" :loading="loading">
       <v-icon dark>today</v-icon>
     </v-btn>
     <v-list>
@@ -24,6 +25,10 @@
       first: {
         type: Number,
         default: 2011
+      },
+      loading: {
+        type: Boolean,
+        default: false
       }
     },
     computed: {

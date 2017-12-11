@@ -6,8 +6,9 @@
       full-width
       max-width="290px"
       min-width="290px"
+      :disabled="loading"
   >
-    <v-btn dark color="accent" fab right slot="activator">
+    <v-btn dark color="accent" fab right slot="activator" :loading="loading">
       <v-icon dark>today</v-icon>
     </v-btn>
     <v-date-picker
@@ -33,6 +34,10 @@
       days: {
         type: Array,
         default: null
+      },
+      loading: {
+        type: Boolean,
+        default: false
       }
     },
     data() {

@@ -3,7 +3,7 @@
     <v-card-title>
       <div class="headline">Day Summary <span v-if="!hideDate">for {{day.date | calendar}}</span></div>
       <v-spacer></v-spacer>
-      <date-picker v-if="picker" @selected="loadData" :days="availableDays"></date-picker>
+      <date-picker v-if="picker" @selected="loadData" :days="availableDays" :loading="loading"></date-picker>
     </v-card-title>
     <v-card-text>
       <table class="subheading">
@@ -64,7 +64,8 @@
           energyUsage: 0,
           travelTime: 0,
           co2Saving: 0
-        }
+        },
+        loading: false
       }
     },
     watch: {
@@ -91,13 +92,18 @@
     },
     methods: {
       loadData(date) {
+        this.loading = true;
         console.log('load data', date);
         this.$api.driveRecordDay(date)
             .then(dr => {
               this.selectedDate = date;
               this.day = dr;
+              this.loading = false;
             })
-            .catch(error => console.error('driveRecordDay', error));
+            .catch(error => {
+              console.error('driveRecordDay', error);
+              this.loading = false;
+            });
       }
     }
   }

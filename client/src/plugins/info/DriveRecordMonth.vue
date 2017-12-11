@@ -3,7 +3,7 @@
     <v-card-title>
       <div class="headline">Month Summary <span v-if="!hideDate">for {{day.date | monthYear}}</span></div>
       <v-spacer></v-spacer>
-      <month-picker v-if="picker" @selected="loadData"></month-picker>
+      <month-picker v-if="picker" @selected="loadData" :loading="loading"></month-picker>
     </v-card-title>
     <v-card-text>
       <table class="subheading">
@@ -57,7 +57,8 @@
           energyUsage: 0,
           travelTime: 0,
           co2Saving: 0
-        }
+        },
+        loading: false
       }
     },
     watch: {
@@ -69,12 +70,17 @@
     },
     methods: {
       loadData(month) {
+        this.loading = true;
         console.log('load data', month);
         this.$api.driveRecordMonth(month)
             .then(dr => {
               this.day = dr;
+              this.loading = false;
             })
-            .catch(error => console.error('driveRecordMonth', error));
+            .catch(error => {
+              console.error('driveRecordMonth', error);
+              this.loading = false;
+            });
       }
     }
   }

@@ -3,7 +3,7 @@
     <v-card-title>
       <div class="headline">Distance & Time <span v-if="!hideDate">for {{selectedDate}}</span></div>
       <v-spacer></v-spacer>
-      <year-picker v-if="picker" @selected="loadData"></year-picker>
+      <year-picker v-if="picker" @selected="loadData" :loading="loading"></year-picker>
     </v-card-title>
     <v-card-text>
       <bar-graph
@@ -36,7 +36,8 @@
     data() {
       return {
         selectedDate: null,
-        data: []
+        data: [],
+        loading: false
       }
     },
     watch: {
@@ -48,12 +49,17 @@
     },
     methods: {
       loadData(year) {
+        this.loading = true;
         this.$api.distanceTimeYear(year)
             .then(gdp => {
               this.selectedDate = year;
               this.data = gdp;
+              this.loading = false;
             })
-            .catch(error => console.error('distanceTimeYear', error));
+            .catch(error => {
+              console.error('distanceTimeYear', error);
+              this.loading = false;
+            });
 
       }
     }

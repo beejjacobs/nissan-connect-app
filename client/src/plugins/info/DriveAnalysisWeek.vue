@@ -3,7 +3,7 @@
     <v-card-title>
       <div class="headline">Week Summary <span v-if="!hideDate">for {{startDate | calendar}}</span></div>
       <v-spacer></v-spacer>
-      <date-picker v-if="picker" @selected="loadData"></date-picker>
+      <date-picker v-if="picker" @selected="loadData" :loading="loading"></date-picker>
     </v-card-title>
     <v-card-text>
       <table class="subheading">
@@ -59,7 +59,8 @@
           regenLevel: 1,
           accessoryUsage: 0,
           accessoryUsageLevel: 1
-        }]
+        }],
+        loading: false
       }
     },
     watch: {
@@ -71,13 +72,18 @@
     },
     methods: {
       loadData(date) {
+        this.loading = true;
         this.$api.driveAnalysisWeek(date)
             .then(daw => {
               this.selectedDate = date;
               this.startDate = daw.startDate;
               this.summaries = daw.days;
+              this.loading = false;
             })
-            .catch(error => console.error('driveAnalysisWeek', error));
+            .catch(error => {
+              console.error('driveAnalysisWeek', error);
+              this.loading = false;
+            });
       }
     }
   }

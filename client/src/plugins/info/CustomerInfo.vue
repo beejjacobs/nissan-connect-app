@@ -4,7 +4,8 @@
       <div class="headline">Customer Info</div>
     </v-card-title>
     <v-card-text>
-      <table class="subheading">
+      <v-progress-circular v-if="loading" indeterminate></v-progress-circular>
+      <table class="subheading" v-else>
         <tr>
           <td>ID:</td>
           <td>{{ info.userId }}</td>
@@ -39,13 +40,21 @@
     name: 'customer-info',
     data() {
       return {
-        info: {}
+        info: {},
+        loading: false
       }
     },
     mounted () {
+      this.loading = true;
       this.$api.customerInfo()
-          .then(ci => this.info = ci)
-          .catch(error => console.error('customerInfo', error));
+          .then(ci => {
+            this.info = ci;
+            this.loading = false;
+          })
+          .catch(error => {
+            console.error('customerInfo', error);
+            this.loading = false;
+          });
     }
   }
 </script>

@@ -4,7 +4,8 @@
       <div class="headline">Day Summary for {{summary.targetDate | calendar}}</div>
     </v-card-title>
     <v-card-text>
-      <table class="subheading">
+      <v-progress-circular v-if="loading" indeterminate></v-progress-circular>
+      <table class="subheading" v-else>
         <tr>
           <td>Average Economy:</td>
           <td>{{summary.averageEconomy}} miles/kWh ({{summary.averageEconomy | economyWhPerMile}} W/mile)</td>
@@ -46,13 +47,21 @@
           regenLevel: 1,
           accessoryUsage: 0,
           accessoryUsageLevel: 1
-        }
+        },
+        loading: false
       }
     },
     mounted () {
+      this.loading = true;
       this.$api.driveAnalysisToday()
-          .then(da => this.summary = da.day)
-          .catch(error => console.error('driveAnalysisToday', error));
+          .then(da => {
+            this.summary = da.day;
+            this.loading = false;
+          })
+          .catch(error => {
+            console.error('driveAnalysisToday', error);
+            this.loading = false;
+          });
     }
   }
 </script>

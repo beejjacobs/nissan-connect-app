@@ -3,7 +3,7 @@
     <v-card-title>
       <div class="headline">Trip Summary <span v-if="!hideDate">for {{selectedDate | monthYear}}</span></div>
       <v-spacer></v-spacer>
-      <month-picker v-if="picker" @selected="loadData"></month-picker>
+      <month-picker v-if="picker" @selected="loadData" :loading="loading"></month-picker>
     </v-card-title>
     <v-card-text>
       <table class="subheading">
@@ -123,7 +123,8 @@
         longest: null,
         economic: null,
         mostTrips: null,
-        cost: 0
+        cost: 0,
+        loading: false
       }
     },
     filters: {
@@ -133,12 +134,17 @@
     },
     methods: {
       loadData(month) {
+        this.loading = true;
         this.$api.tripMonthSummary(month)
             .then(tsm => {
               this.selectedDate = month;
-              this.summary = tsm
+              this.summary = tsm;
+              this.loading = false;
             })
-            .catch(error => console.error('tripMonthSummary', error));
+            .catch(error => {
+              console.error('tripMonthSummary', error);
+              this.loading = false;
+            });
       }
     },
     watch: {
