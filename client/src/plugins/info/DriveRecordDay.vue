@@ -34,23 +34,14 @@
 
 <script>
   import moment from 'moment';
+  import HasDatePicker from './mixins/HasDatePicker';
   export default {
     name: 'drive-record-day',
+    mixins: [HasDatePicker],
     props: {
       startDate: {
         type: String,
         default: '2017-09'
-      },
-      picker: {
-        type: Boolean,
-        default: true
-      },
-      date: {
-        type: String
-      },
-      hideDate: {
-        type: Boolean,
-        default: false
       }
     },
     data() {
@@ -64,14 +55,6 @@
           energyUsage: 0,
           travelTime: 0,
           co2Saving: 0
-        },
-        loading: false
-      }
-    },
-    watch: {
-      date(newDate) {
-        if (!this.picker && newDate) {
-          this.loadData(newDate);
         }
       }
     },

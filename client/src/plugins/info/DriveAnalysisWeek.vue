@@ -29,21 +29,10 @@
 </template>
 
 <script>
+  import HasDatePicker from './mixins/HasDatePicker';
   export default {
     name: 'drive-analysis-week',
-    props: {
-      picker: {
-        type: Boolean,
-        default: true
-      },
-      date: {
-        type: String
-      },
-      hideDate: {
-        type: Boolean,
-        default: false
-      }
-    },
+    mixins: [HasDatePicker],
     data() {
       return {
         selectedDate: null,
@@ -59,15 +48,7 @@
           regenLevel: 1,
           accessoryUsage: 0,
           accessoryUsageLevel: 1
-        }],
-        loading: false
-      }
-    },
-    watch: {
-      date(newDate) {
-        if (!this.picker && newDate) {
-          this.loadData(newDate);
-        }
+        }]
       }
     },
     methods: {
