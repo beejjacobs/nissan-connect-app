@@ -99,21 +99,10 @@
 
 <script>
   import moment from 'moment';
+  import HasMonthPicker from './mixins/HasMonthPicker';
   export default {
     name: 'trip-month-summary',
-    props: {
-      picker: {
-        type: Boolean,
-        default: true
-      },
-      month: {
-        type: String
-      },
-      hideDate: {
-        type: Boolean,
-        default: false
-      }
-    },
+    mixins: [HasMonthPicker],
     data() {
       return {
         selectedDate: null,
@@ -123,8 +112,7 @@
         longest: null,
         economic: null,
         mostTrips: null,
-        cost: 0,
-        loading: false
+        cost: 0
       }
     },
     filters: {
@@ -148,11 +136,6 @@
       }
     },
     watch: {
-      month(newMonth) {
-        if (!this.picker && newMonth) {
-          this.loadData(newMonth);
-        }
-      },
       summary() {
         this.cost = 15 / this.summary.total.averageEconomy;
         if (!this.summary.days) {

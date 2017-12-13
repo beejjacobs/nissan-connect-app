@@ -16,33 +16,14 @@
 </template>
 
 <script>
+  import HasMonthPicker from './mixins/HasMonthPicker';
   export default {
     name: 'energy-usage-month',
-    props: {
-      picker: {
-        type: Boolean,
-        default: true
-      },
-      month: {
-        type: String
-      },
-      hideDate: {
-        type: Boolean,
-        default: false
-      }
-    },
+    mixins: [HasMonthPicker],
     data() {
       return {
         selectedDate: null,
-        data: [],
-        loading: false
-      }
-    },
-    watch: {
-      month(newMonth) {
-        if (!this.picker && newMonth) {
-          this.loadData(newMonth);
-        }
+        data: []
       }
     },
     methods: {

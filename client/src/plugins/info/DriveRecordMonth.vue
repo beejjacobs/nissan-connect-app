@@ -33,21 +33,10 @@
 </template>
 
 <script>
+  import HasMonthPicker from './mixins/HasMonthPicker';
   export default {
     name: 'drive-record-month',
-    props: {
-      picker: {
-        type: Boolean,
-        default: true
-      },
-      month: {
-        type: String
-      },
-      hideDate: {
-        type: Boolean,
-        default: false
-      }
-    },
+    mixins: [HasMonthPicker],
     data() {
       return {
         day: {
@@ -57,14 +46,6 @@
           energyUsage: 0,
           travelTime: 0,
           co2Saving: 0
-        },
-        loading: false
-      }
-    },
-    watch: {
-      month(newMonth) {
-        if (!this.picker && newMonth) {
-          this.loadData(newMonth);
         }
       }
     },
