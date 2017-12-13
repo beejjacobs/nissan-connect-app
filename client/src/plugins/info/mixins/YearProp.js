@@ -1,7 +1,7 @@
 export default {
   props: {
-    month: {
-      type: String
+    year: {
+      type: Number
     }
   }
 }

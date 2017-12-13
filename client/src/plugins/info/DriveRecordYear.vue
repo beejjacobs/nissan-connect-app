@@ -34,21 +34,10 @@
 
 <script>
   import moment from 'moment';
+  import HasYearPicker from './mixins/HasYearPicker';
   export default {
     name: 'drive-record-year',
-    props: {
-      picker: {
-        type: Boolean,
-        default: true
-      },
-      year: {
-        type: Number
-      },
-      hideDate: {
-        type: Boolean,
-        default: false
-      }
-    },
+    mixins: [HasYearPicker],
     data() {
       return {
         day: {
@@ -58,14 +47,6 @@
           energyUsage: 0,
           travelTime: 0,
           co2Saving: 0
-        },
-        loading: false
-      }
-    },
-    watch: {
-      year(newYear) {
-        if (!this.picker && newYear) {
-          this.loadData(newYear);
         }
       }
     },

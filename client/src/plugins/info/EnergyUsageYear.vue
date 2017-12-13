@@ -16,33 +16,14 @@
 </template>
 
 <script>
+  import HasYearPicker from './mixins/HasYearPicker';
   export default {
     name: 'energy-usage-year',
-    props: {
-      picker: {
-        type: Boolean,
-        default: true
-      },
-      year: {
-        type: Number
-      },
-      hideDate: {
-        type: Boolean,
-        default: false
-      }
-    },
+    mixins: [HasYearPicker],
     data() {
       return {
         selectedDate: null,
-        data: [],
-        loading: false
-      }
-    },
-    watch: {
-      year(newYear) {
-        if (!this.picker && newYear) {
-          this.loadData(newYear);
-        }
+        data: []
       }
     },
     methods: {
