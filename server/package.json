@@ -17,7 +17,7 @@
   },
   "homepage": "https://github.com/beejjacobs/nissan-connect-app#readme",
   "dependencies": {
-    "@beejjacobs/nissan-connect": "^1.0.13",
+    "@beejjacobs/nissan-connect": "^1.0.14",
     "body-parser": "^1.18.2",
     "express": "^4.16.2",
     "moment": "^2.19.2"
