@@ -4,13 +4,14 @@
       grid-list-lg
   >
     <v-layout row wrap>
-      <year-picker @selected="loadData"></year-picker>
+      <year-picker @selected="loadData" :loading="loading"></year-picker>
       <span class="display-3">{{year}}</span>
       <v-flex xs12>
         <drive-record-year
           :picker="false"
           :year="year"
           hide-date
+          @loading="loadingChange(0, $event)"
         ></drive-record-year>
       </v-flex>
       <v-flex xs12>
@@ -18,6 +19,7 @@
           :picker="false"
           :year="year"
           hide-date
+          @loading="loadingChange(1, $event)"
         ></distance-economy-year>
       </v-flex>
       <v-flex xs12>
@@ -25,6 +27,7 @@
           :picker="false"
           :year="year"
           hide-date
+          @loading="loadingChange(2, $event)"
         ></distance-time-year>
       </v-flex>
       <v-flex xs12>
@@ -32,6 +35,7 @@
           :picker="false"
           :year="year"
           hide-date
+          @loading="loadingChange(3, $event)"
         ></energy-usage-year>
       </v-flex>
       <v-flex xs12>
@@ -39,6 +43,7 @@
           :picker="false"
           :year="year"
           hide-date
+          @loading="loadingChange(4, $event)"
         ></trip-year>
       </v-flex>
     </v-layout>
@@ -46,8 +51,10 @@
 </template>
 
 <script>
+  import LoadingStateMulti from '../plugins/info/mixins/LoadingStateMulti'
   export default {
     name: 'YearAll',
+    mixins: [LoadingStateMulti],
     data: () => ({
       year: null
     }),

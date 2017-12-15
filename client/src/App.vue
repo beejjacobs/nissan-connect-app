@@ -41,6 +41,7 @@
                 v-for="(child, i) in item.children"
                 :key="i"
                 :to="child.link"
+                exact
                 @click=""
             >
               <v-list-tile-action>

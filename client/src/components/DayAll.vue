@@ -4,13 +4,14 @@
       grid-list-lg
   >
     <v-layout row wrap>
-      <date-picker @selected="loadData"></date-picker>
+      <date-picker @selected="loadData" :loading="loading"></date-picker>
       <span class="display-3">{{date | calendar}}</span>
       <v-flex xs12>
         <drive-record-day
           :picker="false"
           :date="date"
           hide-date
+          @loading="loadingChange(0, $event)"
         ></drive-record-day>
       </v-flex>
       <v-flex xs12>
@@ -18,6 +19,7 @@
           :picker="false"
           :date="date"
           hide-date
+          @loading="loadingChange(1, $event)"
         ></drive-analysis-week>
       </v-flex>
     </v-layout>
@@ -25,8 +27,10 @@
 </template>
 
 <script>
+  import LoadingStateMulti from '../plugins/info/mixins/LoadingStateMulti'
   export default {
     name: 'DayAll',
+    mixins: [LoadingStateMulti],
     data: () => ({
       date: null
     }),
