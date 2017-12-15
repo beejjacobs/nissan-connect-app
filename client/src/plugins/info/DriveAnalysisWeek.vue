@@ -59,12 +59,9 @@
               this.selectedDate = date;
               this.startDate = daw.startDate;
               this.summaries = daw.days;
-              this.loading = false;
             })
-            .catch(error => {
-              console.error('driveAnalysisWeek', error);
-              this.loading = false;
-            });
+            .catch(error => console.error('driveAnalysisWeek', error))
+            .finally(() => this.loading = false);
       }
     }
   }

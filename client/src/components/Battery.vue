@@ -211,26 +211,18 @@
       this.$api.batteryLastStatus()
           .then(bs => {
             this.status = bs;
-            this.loading = false;
             this.loadingTime = 30;
           })
-          .catch(error => {
-            console.error('batteryLastStatus', error);
-            this.loading = false;
-          });
+          .catch(error => console.error('batteryLastStatus', error))
+          .finally(() => this.loading = false);
     },
     methods: {
       startCharge() {
         this.chargeLoading = true;
         this.$api.batteryCharge()
-            .then(() => {
-              this.charging = true;
-              this.chargeLoading = false;
-            })
-            .catch(error => {
-              console.error('batteryCharge', error);
-              this.chargeLoading = false;
-            });
+            .then(() => this.charging = true)
+            .catch(error => console.error('batteryCharge', error))
+            .finally(() => this.chargeLoading = false);
       },
       refresh() {
         this.loading = true;
@@ -238,12 +230,9 @@
             .then(bs => {
               this.updateTime = bs.updateTime;
               this.status = bs.batteryStatus;
-              this.loading = false;
             })
-            .catch(error => {
-              console.error('batteryStatus', error);
-              this.loading = false;
-            });
+            .catch(error => console.error('batteryStatus', error))
+            .finally(() => this.loading = false);
       }
     }
   }

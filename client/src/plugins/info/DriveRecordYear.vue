@@ -55,14 +55,9 @@
         this.loading = true;
         console.log('load data', year);
         this.$api.driveRecordYear(year)
-            .then(dr => {
-              this.day = dr;
-              this.loading = false;
-            })
-            .catch(error => {
-              console.error('driveRecordYear', error);
-              this.loading = false;
-            });
+            .then(dr => this.day = dr)
+            .catch(error => console.error('driveRecordYear', error))
+            .finally(() => this.loading = false);
       }
     }
   }

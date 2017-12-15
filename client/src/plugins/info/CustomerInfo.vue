@@ -47,14 +47,9 @@
     mounted () {
       this.loading = true;
       this.$api.customerInfo()
-          .then(ci => {
-            this.info = ci;
-            this.loading = false;
-          })
-          .catch(error => {
-            console.error('customerInfo', error);
-            this.loading = false;
-          });
+          .then(ci => this.info = ci)
+          .catch(error => console.error('customerInfo', error))
+          .finally(() => this.loading = false);
     }
   }
 </script>

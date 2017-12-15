@@ -81,12 +81,9 @@
             .then(dr => {
               this.selectedDate = date;
               this.day = dr;
-              this.loading = false;
             })
-            .catch(error => {
-              console.error('driveRecordDay', error);
-              this.loading = false;
-            });
+            .catch(error => console.error('driveRecordDay', error))
+            .finally(() => this.loading = false);
       }
     }
   }

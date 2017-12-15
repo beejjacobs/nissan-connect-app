@@ -186,51 +186,31 @@
       cancel() {
         this.loading.cancel = true;
         this.$api.acCancelSchedule()
-            .then(() => {
-              this.schedule = null;
-              this.loading.cancel = false;
-            })
-            .catch(error => {
-              console.error('acCancelSchedule', error);
-              this.loading.cancel = false;
-            });
+            .then(() => this.schedule = null)
+            .catch(error => console.error('acCancelSchedule', error))
+            .finally(() => this.loading.cancel = false);
       },
       set() {
         this.loading.set = true;
         let dateTime = this.timer.date + ' ' + this.timer.time;
         this.$api.acSetSchedule(dateTime)
-            .then(ac => {
-              this.schedule = ac.isSet ? ac.executeTime : null;
-              this.loading.set = false;
-            })
-            .catch(error => {
-              console.error('acSetSchedule', error);
-              this.loading.set = false;
-            });
+            .then(ac => this.schedule = ac.isSet ? ac.executeTime : null)
+            .catch(error => console.error('acSetSchedule', error))
+            .finally(() => this.loading.set = false);
       },
       turnAcOn() {
         this.loading.on = true;
         this.$api.acOn()
-            .then(ac => {
-              this.acOn = ac.success;
-              this.loading.on = false;
-            })
-            .catch(error => {
-              console.error('turnAcOn', error);
-              this.loading.on = false;
-            });
+            .then(ac => this.acOn = ac.success)
+            .catch(error => console.error('turnAcOn', error))
+            .finally(() => this.loading.on = false);
       },
       turnAcOff() {
         this.loading.off = true;
         this.$api.acOff()
-            .then(ac => {
-              this.acOn = !ac.success;
-              this.loading.off = false;
-            })
-            .catch(error => {
-              console.error('turnAcOff', error);
-              this.loading.off = false;
-            });
+            .then(ac => this.acOn = !ac.success)
+            .catch(error => console.error('turnAcOff', error))
+            .finally(() => this.loading.off = false);
       }
     },
     watch: {
@@ -244,23 +224,13 @@
     },
     mounted() {
       this.$api.acSchedule()
-          .then(ac => {
-            this.schedule = ac.isSet ? ac.executeTime : null;
-            this.loading.schedule = false;
-          })
-          .catch(error => {
-            console.error('acSchedule', error);
-            this.loading.schedule = false;
-          });
+          .then(ac => this.schedule = ac.isSet ? ac.executeTime : null)
+          .catch(error => console.error('acSchedule', error))
+          .finally(() => this.loading.schedule = false);
       this.$api.acRecord()
-          .then(record => {
-            this.record = record;
-            this.loading.record = false;
-          })
-          .catch(error => {
-            console.error('acRecord', error);
-            this.loading.record = false;
-          });
+          .then(record => this.record = record)
+          .catch(error => console.error('acRecord', error))
+          .finally(() => this.loading.record = false);
     },
     filters: {
       timeDate: function (value) {

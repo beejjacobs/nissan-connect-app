@@ -127,12 +127,9 @@
             .then(tsm => {
               this.selectedDate = month;
               this.summary = tsm;
-              this.loading = false;
             })
-            .catch(error => {
-              console.error('tripMonthSummary', error);
-              this.loading = false;
-            });
+            .catch(error => console.error('tripMonthSummary', error))
+            .finally(() => this.loading = false);
       }
     },
     watch: {

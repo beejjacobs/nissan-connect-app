@@ -152,11 +152,10 @@
       }
     },
     mounted() {
-      this.$router.afterEach((to, from) => {
-        this.drawer = false;
-      });
+      this.$router.afterEach(() => this.drawer = false);
       this.$api.vehicleInfo()
-        .then(vi => this.$store.commit('set', vi));
+          .then(vi => this.$store.commit('set', vi))
+          .catch(error => console.error('vehicleInfo' ,error));
     }
   }
 </script>

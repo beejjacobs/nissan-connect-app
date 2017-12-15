@@ -35,12 +35,9 @@
             .then(gdp => {
               this.selectedDate = month;
               this.data = gdp;
-              this.loading = false;
             })
-            .catch(error => {
-              console.error('distanceTimeMonth', error);
-              this.loading = false;
-            });
+            .catch(error => console.error('distanceTimeMonth', error))
+            .finally(() => this.loading = false);
       }
     }
   }

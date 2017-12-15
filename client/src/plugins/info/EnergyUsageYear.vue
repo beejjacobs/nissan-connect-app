@@ -33,12 +33,9 @@
             .then(gdp => {
               this.selectedDate = year;
               this.data = gdp;
-              this.loading = false;
             })
-            .catch(error => {
-              console.error('energyUsageYear', error);
-              this.loading = false;
-            });
+            .catch(error => console.error('energyUsageYear', error))
+            .finally(() => this.loading = false);
       }
     }
   }

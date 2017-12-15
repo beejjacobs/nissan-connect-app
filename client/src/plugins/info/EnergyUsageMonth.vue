@@ -33,12 +33,9 @@
             .then(gdp => {
               this.selectedDate = month;
               this.data = gdp;
-              this.loading = false;
             })
-            .catch(error => {
-              console.error('energyUsageMonth', error);
-              this.loading = false;
-            });
+            .catch(error => console.error('energyUsageMonth', error))
+            .finally(() => this.loading = false);
       }
     }
   }

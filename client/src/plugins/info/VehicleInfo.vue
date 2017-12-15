@@ -63,14 +63,9 @@
       if (this.fetch) {
         this.loading = true;
         this.$api.vehicleInfo()
-            .then(vi => {
-              this.info = vi;
-              this.loading = false;
-            })
-            .catch(error => {
-              console.error('vehicleInfo', error);
-              this.loading = false;
-            });
+            .then(vi => this.info = vi)
+            .catch(error => console.error('vehicleInfo', error))
+            .finally(() => this.loading = false);
       }
     }
   }

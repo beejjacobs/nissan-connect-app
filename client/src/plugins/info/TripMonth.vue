@@ -33,12 +33,9 @@
             .then(gdp => {
               this.selectedDate = month;
               this.data = gdp;
-              this.loading = false;
             })
-            .catch(error => {
-              console.error('tripMonth', error);
-              this.loading = false;
-            });
+            .catch(error => console.error('tripMonth', error))
+            .finally(() => this.loading = false);
       }
     }
   }

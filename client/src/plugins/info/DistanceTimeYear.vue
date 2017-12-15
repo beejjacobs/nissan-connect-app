@@ -35,12 +35,9 @@
             .then(gdp => {
               this.selectedDate = year;
               this.data = gdp;
-              this.loading = false;
             })
-            .catch(error => {
-              console.error('distanceTimeYear', error);
-              this.loading = false;
-            });
+            .catch(error => console.error('distanceTimeYear', error))
+            .finally(() => this.loading = false);
 
       }
     }

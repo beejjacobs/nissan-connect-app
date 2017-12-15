@@ -33,12 +33,9 @@
             .then(gdp => {
               this.selectedDate = year;
               this.data = gdp;
-              this.loading = false;
             })
-            .catch(error => {
-              console.error('tripYear', error);
-              this.loading = false;
-            });
+            .catch(error => console.error('tripYear', error))
+            .finally(() => this.loading = false);
       }
     }
   }

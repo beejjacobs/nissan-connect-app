@@ -54,14 +54,9 @@
         this.loading = true;
         console.log('load data', month);
         this.$api.driveRecordMonth(month)
-            .then(dr => {
-              this.day = dr;
-              this.loading = false;
-            })
-            .catch(error => {
-              console.error('driveRecordMonth', error);
-              this.loading = false;
-            });
+            .then(dr => this.day = dr)
+            .catch(error => console.error('driveRecordMonth', error))
+            .finally(() => this.loading = false);
       }
     }
   }

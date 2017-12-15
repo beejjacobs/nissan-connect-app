@@ -54,14 +54,9 @@
     mounted () {
       this.loading = true;
       this.$api.driveAnalysisToday()
-          .then(da => {
-            this.summary = da.day;
-            this.loading = false;
-          })
-          .catch(error => {
-            console.error('driveAnalysisToday', error);
-            this.loading = false;
-          });
+          .then(da => this.summary = da.day)
+          .catch(error => console.error('driveAnalysisToday', error))
+          .finally(() => this.loading = false);
     }
   }
 </script>
